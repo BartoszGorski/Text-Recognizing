@@ -1,8 +1,10 @@
+import re
+
 from src.base_gen.ArticleGetter import get_random_page
 
 LANGUAGES = ['en', 'pl']
 SHORTEST_SUMMARY = 1000
-
+VOWELS = 'aeiouyAEIOUY'
 
 
 class BaseGen:
@@ -26,9 +28,11 @@ class BaseGen:
         # type: (str) -> dict[str, float | list]
         words = text.split()
         average_word_length = self.__average_word_length(words)
+        vowel_ratio = self.__vowel_ratio(text)
 
     def __average_word_length(self, words):
         words_len = len(words)
         return sum(len(word) for word in words) / words_len if words_len else 0
 
-
+    def __vowel_ratio(self, text):
+        return len(re.findall('[{}]'.format(VOWELS), text)) / len(text)
