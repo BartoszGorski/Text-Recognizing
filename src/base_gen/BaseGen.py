@@ -1,4 +1,6 @@
 import re
+import nltk
+nltk.download('punkt')
 
 from src.base_gen.ArticleGetter import get_random_page
 
@@ -29,6 +31,7 @@ class BaseGen:
         words = text.split()
         average_word_length = self.__average_word_length(words)
         vowel_ratio = self.__vowel_ratio(text)
+        average_words_in_sentences = self.__average_words_in_sentences(text)
 
     def __average_word_length(self, words):
         words_len = len(words)
@@ -36,3 +39,6 @@ class BaseGen:
 
     def __vowel_ratio(self, text):
         return len(re.findall('[{}]'.format(VOWELS), text)) / len(text)
+
+    def __average_words_in_sentences(self, text):
+        return len(text.split()) / len(nltk.sent_tokenize(text))
