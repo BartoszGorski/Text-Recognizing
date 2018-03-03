@@ -1,6 +1,6 @@
 from src.base_gen.BaseGen import BaseGen
 
-SIMPLE_SENTENCE = "Abćńa I'm 125 xz. Ańżss, 5% oo-k3 Ωw-op ok Lol.."
+SIMPLE_SENTENCE = "Abćńa I'm 125 xz. Ańżss, 5% oo-k3 Ωw-oą ok Lol.."
 
 
 class TestCalculateFeatures:

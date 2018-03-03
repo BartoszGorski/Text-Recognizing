@@ -30,6 +30,7 @@ class BaseGen:
         average_word_length = self.average_word_length(words)
         text_vowel_ratio, word_vowel_ratio = self.vowel_ratio(words)
         average_words_in_sentences = self.average_words_in_sentences(len(words), text)
+        nonascii_ratio = self.nonascii_ratio(text)
 
     def extract_words(self, text):
         tokens = nltk.wordpunct_tokenize(text)
@@ -56,3 +57,7 @@ class BaseGen:
 
     def average_words_in_sentences(self, words_len, text):
         return words_len / len(nltk.sent_tokenize(text))
+
+    def nonascii_ratio(self, text):
+        non_ascii = len(re.sub('[\x20-\x7e]', '', text))
+        return non_ascii / len(text)
