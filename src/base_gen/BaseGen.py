@@ -30,7 +30,7 @@ class BaseGen:
         average_word_length = self.average_word_length(words)
         text_vowel_ratio, word_vowel_ratio = self.vowel_ratio(words)
         average_words_in_sentences = self.average_words_in_sentences(len(words), text)
-        nonascii_ratio = self.nonascii_ratio(text)
+        nonascii_ratio = self.non_ascii_ratio(text)
 
     def extract_words(self, text):
         tokens = nltk.wordpunct_tokenize(text)
@@ -44,20 +44,45 @@ class BaseGen:
         vowels_count = 0
         for word in words:
             vowels_count += len(re.findall('[{}]'.format(VOWELS), word))
-        text_vowel_ratio = self.__vowel_ratio_in_text(words, vowels_count)
-        word_vowel_ratio = self.__vowel_ratio_in_word(len(words), vowels_count)
+        text_vowel_ratio = self.__ratio_in_text(words, vowels_count)
+        word_vowel_ratio = self.__ratio_in_word(len(words), vowels_count)
         return text_vowel_ratio, word_vowel_ratio
 
-    def __vowel_ratio_in_text(self, words, vowels_count):
+    def __ratio_in_text(self, words, variable_count):
         words_len = sum(len(word) for word in words)
-        return vowels_count / words_len
+        return variable_count / words_len
 
-    def __vowel_ratio_in_word(self, words_count, vowels_count):
-        return vowels_count / words_count
+    def __ratio_in_word(self, words_count, variable_count):
+        return variable_count / words_count
 
     def average_words_in_sentences(self, words_len, text):
         return words_len / len(nltk.sent_tokenize(text))
 
-    def nonascii_ratio(self, text):
+    def non_ascii_ratio(self, text):
         non_ascii = len(re.sub('[\x20-\x7e]', '', text))
         return non_ascii / len(text)
+
+    def double_letter_and_vowels_ratio(self, words):
+        doubles_letter = 0
+        doubles_vowel = 0
+        for word in words:
+            word = word.lower()
+            letter_iterator = iter(word)
+            last_letter = next(letter_iterator)
+            is_last_vowel = last_letter in VOWELS
+            for letter in letter_iterator:
+                is_vowel = letter in VOWELS
+                if is_last_vowel and is_vowel:
+                    doubles_vowel += 1
+                is_last_vowel = is_vowel
+                if letter == last_letter:
+                    doubles_letter += 1
+                last_letter = letter
+
+        doubles = {
+            'text_doubles_letters': self.__ratio_in_text(words, doubles_letter),
+            'text_doubles_vowels' : self.__ratio_in_text(words, doubles_vowel),
+            'word_doubles_letters': self.__ratio_in_word(len(words), doubles_letter),
+            'word_doubles_vowels' : self.__ratio_in_word(len(words), doubles_vowel),
+        }
+        return doubles
