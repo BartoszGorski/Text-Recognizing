@@ -31,3 +31,14 @@ class TestCalculateFeatures:
         assert doubles['text_doubles_vowels'] == 0.04
         assert doubles['word_doubles_letters'] == 0.3
         assert doubles['word_doubles_vowels'] == 0.1
+
+    def test_alphabet_ratio(self):
+        text_letter_ratio, word_letter_ratio = self.base_gen.alphabet_ratio(self.words)
+        assert text_letter_ratio['a'] == 3 / 25
+        assert text_letter_ratio['y'] == 0 / 25
+        assert text_letter_ratio['i'] == 1 / 25
+        assert text_letter_ratio['l'] == 2 / 25
+        assert word_letter_ratio['a'] == 3 / 10
+        assert word_letter_ratio['y'] == 0 / 10
+        assert word_letter_ratio['i'] == 1 / 10
+        assert word_letter_ratio['l'] == 2 / 10

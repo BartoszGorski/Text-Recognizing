@@ -1,4 +1,5 @@
 import re
+import string
 import nltk
 nltk.download('punkt')
 
@@ -7,6 +8,7 @@ from src.base_gen.ArticleGetter import get_random_page
 LANGUAGES = ['en', 'pl']
 SHORTEST_SUMMARY = 1000
 VOWELS = 'aeiouyAEIOUY'
+LETTERS = string.ascii_lowercase
 
 
 class BaseGen:
@@ -31,6 +33,8 @@ class BaseGen:
         text_vowel_ratio, word_vowel_ratio = self.vowel_ratio(words)
         average_words_in_sentences = self.average_words_in_sentences(len(words), text)
         nonascii_ratio = self.non_ascii_ratio(text)
+        doubles_ratio = self.double_letter_and_vowels_ratio(words)
+        text_letter_ratio, word_letter_ratio = self.alphabet_ratio(words)
 
     def extract_words(self, text):
         tokens = nltk.wordpunct_tokenize(text)
@@ -78,7 +82,6 @@ class BaseGen:
                 if letter == last_letter:
                     doubles_letter += 1
                 last_letter = letter
-
         doubles = {
             'text_doubles_letters': self.__ratio_in_text(words, doubles_letter),
             'text_doubles_vowels' : self.__ratio_in_text(words, doubles_vowel),
@@ -86,3 +89,15 @@ class BaseGen:
             'word_doubles_vowels' : self.__ratio_in_word(len(words), doubles_vowel),
         }
         return doubles
+
+    def alphabet_ratio(self, words):
+        text_letter_ratio = {}
+        word_letter_ratio = {}
+        for letter in LETTERS:
+            letter_count = 0
+            for word in words:
+                lower_case_word = word.lower()
+                letter_count += lower_case_word.count(letter)
+            text_letter_ratio[letter] = (self.__ratio_in_text(words, letter_count))
+            word_letter_ratio[letter] = (self.__ratio_in_word(len(words), letter_count))
+        return text_letter_ratio, word_letter_ratio
