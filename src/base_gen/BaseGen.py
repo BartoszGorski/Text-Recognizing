@@ -5,36 +5,46 @@ nltk.download('punkt')
 
 from src.base_gen.ArticleGetter import get_random_page
 
-LANGUAGES = ['en', 'pl']
-SHORTEST_SUMMARY = 1000
+
 VOWELS = 'aeiouyAEIOUY'
 LETTERS = string.ascii_lowercase
 
 
 class BaseGen:
 
-    def collect_articles_date(self, pages_count_to_get):
-        for language in LANGUAGES:
-            for i in range(pages_count_to_get):
-                page = get_random_page(language)
-                summary = self.__chop_summary(page.summary)
-                if len(summary) < SHORTEST_SUMMARY:
-                    continue
-                p_id = page.pageid
-                analysed = self.__analyse_text(summary)
+    def collect_articles_date(self, language='en', shortest_summary=500):
+        page_not_found = True
+        analysed = {}
+        while page_not_found:
+            page = get_random_page(language)
+            summary = self.__chop_summary(page.summary)
+            if len(summary) < shortest_summary:
+                continue
+            page_not_found = False
+            analysed = self.__analyse_text(summary)
+            analysed['language'] = language
+            analysed['page_id']  = page.pageid
+        return analysed
 
     def __chop_summary(self, summary):
         return summary.split("\n\n")[0]
 
     def __analyse_text(self, text):
-        # type: (str) -> dict[str, float | list]
         words = self.extract_words(text)
         average_word_length = self.average_word_length(words)
-        text_vowel_ratio, word_vowel_ratio = self.vowel_ratio(words)
+        vowel_ratio = self.vowel_ratio(words)
         average_words_in_sentences = self.average_words_in_sentences(len(words), text)
-        nonascii_ratio = self.non_ascii_ratio(text)
+        non_ascii_ratio = self.non_ascii_ratio(text)
         doubles_ratio = self.double_letter_and_vowels_ratio(words)
-        text_letter_ratio, word_letter_ratio = self.alphabet_ratio(words)
+        letter_ratio = self.alphabet_ratio(words)
+        return {
+            'word_length': average_word_length,
+            'vowel_ratio': vowel_ratio,
+            'words_in_sentences': average_words_in_sentences,
+            'non_ascii_ratio': non_ascii_ratio,
+            'doubles_ratio': doubles_ratio,
+            'letter_ratio': letter_ratio,
+        }
 
     def extract_words(self, text):
         tokens = nltk.wordpunct_tokenize(text)
@@ -48,16 +58,12 @@ class BaseGen:
         vowels_count = 0
         for word in words:
             vowels_count += len(re.findall('[{}]'.format(VOWELS), word))
-        text_vowel_ratio = self.__ratio_in_text(words, vowels_count)
-        word_vowel_ratio = self.__ratio_in_word(len(words), vowels_count)
-        return text_vowel_ratio, word_vowel_ratio
+        vowel_ratio = self.__ratio_in_text(words, vowels_count)
+        return vowel_ratio
 
     def __ratio_in_text(self, words, variable_count):
         words_len = sum(len(word) for word in words)
         return variable_count / words_len
-
-    def __ratio_in_word(self, words_count, variable_count):
-        return variable_count / words_count
 
     def average_words_in_sentences(self, words_len, text):
         return words_len / len(nltk.sent_tokenize(text))
@@ -83,21 +89,17 @@ class BaseGen:
                     doubles_letter += 1
                 last_letter = letter
         doubles = {
-            'text_doubles_letters': self.__ratio_in_text(words, doubles_letter),
-            'text_doubles_vowels' : self.__ratio_in_text(words, doubles_vowel),
-            'word_doubles_letters': self.__ratio_in_word(len(words), doubles_letter),
-            'word_doubles_vowels' : self.__ratio_in_word(len(words), doubles_vowel),
+            'doubles_letters': self.__ratio_in_text(words, doubles_letter),
+            'doubles_vowels' : self.__ratio_in_text(words, doubles_vowel),
         }
         return doubles
 
     def alphabet_ratio(self, words):
-        text_letter_ratio = {}
-        word_letter_ratio = {}
+        letter_ratio = {}
         for letter in LETTERS:
             letter_count = 0
             for word in words:
                 lower_case_word = word.lower()
                 letter_count += lower_case_word.count(letter)
-            text_letter_ratio[letter] = (self.__ratio_in_text(words, letter_count))
-            word_letter_ratio[letter] = (self.__ratio_in_word(len(words), letter_count))
-        return text_letter_ratio, word_letter_ratio
+            letter_ratio[letter] = (self.__ratio_in_text(words, letter_count))
+        return letter_ratio
