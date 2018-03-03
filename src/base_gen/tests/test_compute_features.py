@@ -1,6 +1,6 @@
 from src.base_gen.BaseGen import BaseGen
 
-SIMPLE_SENTENCE = "Abćńa I'm 125 xz. Ablss, 5% oo-k3 qw-op ok Lol"
+SIMPLE_SENTENCE = "Abćńa I'm 125 xz. Ańżss, 5% oo-k3 Ωw-op ok Lol.."
 
 
 class TestCalculateFeatures:
@@ -21,3 +21,6 @@ class TestCalculateFeatures:
 
     def test_average_words_in_sentences(self):
         assert self.base_gen.average_words_in_sentences(len(self.words), SIMPLE_SENTENCE) == 5.0
+
+    def test_nonascii_ratio(self):
+        assert self.base_gen.nonascii_ratio(SIMPLE_SENTENCE) == 0.125
