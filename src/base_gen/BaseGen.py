@@ -10,12 +10,10 @@ VOWELS = 'aeiouyAEIOUY'
 
 
 class BaseGen:
-    def __init__(self, pages_count_to_get):
-        self.pages_count_to_get = pages_count_to_get
 
-    def collect_articles_date(self):
+    def collect_articles_date(self, pages_count_to_get):
         for language in LANGUAGES:
-            for i in range(self.pages_count_to_get):
+            for i in range(pages_count_to_get):
                 page = get_random_page(language)
                 summary = self.__chop_summary(page.summary)
                 if len(summary) < SHORTEST_SUMMARY:
@@ -28,17 +26,18 @@ class BaseGen:
 
     def __analyse_text(self, text):
         # type: (str) -> dict[str, float | list]
-        words = text.split()
-        average_word_length = self.__average_word_length(words)
+
+        average_word_length = self.__average_word_length(text)
         vowel_ratio = self.__vowel_ratio(text)
         average_words_in_sentences = self.__average_words_in_sentences(text)
 
-    def __average_word_length(self, words):
+    def average_word_length(self, text):
+        words = text.split()
         words_len = len(words)
         return sum(len(word) for word in words) / words_len if words_len else 0
 
-    def __vowel_ratio(self, text):
+    def vowel_ratio(self, text):
         return len(re.findall('[{}]'.format(VOWELS), text)) / len(text)
 
-    def __average_words_in_sentences(self, text):
+    def average_words_in_sentences(self, text):
         return len(text.split()) / len(nltk.sent_tokenize(text))
