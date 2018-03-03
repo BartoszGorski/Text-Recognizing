@@ -43,15 +43,15 @@ class BaseGen:
         vowels_count = 0
         for word in words:
             vowels_count += len(re.findall('[{}]'.format(VOWELS), word))
-        sentence_vowel_ratio = self.__vowel_ratio_in_sentence(words, vowels_count)
+        text_vowel_ratio = self.__vowel_ratio_in_sentence(words, vowels_count)
         word_vowel_ratio = self.__vowel_ratio_per_word(len(words), vowels_count)
-        return sentence_vowel_ratio, word_vowel_ratio
+        return text_vowel_ratio, word_vowel_ratio
 
-    def __vowel_ratio_in_sentence(self, words, vowels_count):
+    def __vowel_ratio_in_text(self, words, vowels_count):
         words_len = sum(len(word) for word in words)
         return vowels_count / words_len
 
-    def __vowel_ratio_per_word(self, words_count, vowels_count):
+    def __vowel_ratio_in_word(self, words_count, vowels_count):
         return vowels_count / words_count
 
     def average_words_in_sentences(self, words_len, text):

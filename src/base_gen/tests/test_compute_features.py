@@ -15,8 +15,8 @@ class TestCalculateFeatures:
         assert self.base_gen.average_word_length(self.words) == 2.5
 
     def test_vowel_ratio(self):
-        sentence_vowel_ratio, word_vowel_ratio = self.base_gen.vowel_ratio(self.words)
-        assert sentence_vowel_ratio == 0.36
+        text_vowel_ratio, word_vowel_ratio = self.base_gen.vowel_ratio(self.words)
+        assert text_vowel_ratio == 0.36
         assert word_vowel_ratio == 0.9
 
     def test_average_words_in_sentences(self):
