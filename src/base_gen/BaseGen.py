@@ -26,10 +26,10 @@ class BaseGen:
 
     def __analyse_text(self, text):
         # type: (str) -> dict[str, float | list]
-
-        average_word_length = self.__average_word_length(text)
-        vowel_ratio = self.__vowel_ratio(text)
-        average_words_in_sentences = self.__average_words_in_sentences(text)
+        words = self.extract_words(text)
+        average_word_length = self.average_word_length(words)
+        text_vowel_ratio, word_vowel_ratio = self.vowel_ratio(words)
+        average_words_in_sentences = self.average_words_in_sentences(len(words), text)
 
     def extract_words(self, text):
         tokens = nltk.wordpunct_tokenize(text)
@@ -43,8 +43,8 @@ class BaseGen:
         vowels_count = 0
         for word in words:
             vowels_count += len(re.findall('[{}]'.format(VOWELS), word))
-        text_vowel_ratio = self.__vowel_ratio_in_sentence(words, vowels_count)
-        word_vowel_ratio = self.__vowel_ratio_per_word(len(words), vowels_count)
+        text_vowel_ratio = self.__vowel_ratio_in_text(words, vowels_count)
+        word_vowel_ratio = self.__vowel_ratio_in_word(len(words), vowels_count)
         return text_vowel_ratio, word_vowel_ratio
 
     def __vowel_ratio_in_text(self, words, vowels_count):
