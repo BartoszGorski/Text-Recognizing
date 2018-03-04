@@ -31,7 +31,7 @@ class TestCalculateFeatures:
 
     def test_alphabet_ratio(self):
         letter_ratio = self.base_gen.alphabet_ratio(self.words)
-        assert letter_ratio['a'] == 3 / 25
-        assert letter_ratio['y'] == 0 / 25
-        assert letter_ratio['i'] == 1 / 25
-        assert letter_ratio['l'] == 2 / 25
+        assert letter_ratio[0] == 3 / 25
+        assert letter_ratio[24] == 0 / 25
+        assert letter_ratio[8] == 1 / 25
+        assert letter_ratio[11] == 2 / 25

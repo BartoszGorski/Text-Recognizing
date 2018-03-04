@@ -95,11 +95,11 @@ class BaseGen:
         return doubles
 
     def alphabet_ratio(self, words):
-        letter_ratio = {}
+        letter_ratio = []
         for letter in LETTERS:
             letter_count = 0
             for word in words:
                 lower_case_word = word.lower()
                 letter_count += lower_case_word.count(letter)
-            letter_ratio[letter] = (self.__ratio_in_text(words, letter_count))
+            letter_ratio.append(self.__ratio_in_text(words, letter_count))
         return letter_ratio
