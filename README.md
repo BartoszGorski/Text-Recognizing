@@ -4,21 +4,21 @@
 
 - python3
 
-#####python3 packages:
+##### python3 packages:
 - wikipedia
 - nltk
 - pytest
 
 ## Install requirements
 To install requirements run:
-```bash
+```commandline
 bgorski@bgorski:~/workspace/Text-Recognizing$ ./install_requirements.sh 
 ```
 
 
 ## Run languages base generation
 Using `python3` run `generate_base.py` from `src` directory:
-```bash
+```commandline
 bgorski@bgorski:~/workspace/Text-Recognizing/src$ python3 generate_base.py
 ```
 
@@ -35,6 +35,6 @@ Options | Description
 
 ## Run tests
 From `Text-Recognizing` directory run `run_test.sh`:
-```bash
+```commandline
 bgorski@bgorski:~/workspace/Text-Recognizing$ ./run_tests.sh 
 ```
