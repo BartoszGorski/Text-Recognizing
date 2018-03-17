@@ -15,13 +15,13 @@ def runner(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate data with language features.')
     parser.add_argument('-l', '--language', default='en',
-                        help='Article language (type abbreviation, for example \'en\', \'pl\'')
+                        help='Article language (type abbreviation, for example \'en\', \'pl\', default=\'en\')')
     parser.add_argument('-i', '--iterations', type=int, default=100,
-                        help='Script iterations')
+                        help='Script iterations (default=100)')
     parser.add_argument('-f', '--file_name', default="base.csv",
-                        help='Path to csv file where save data.')
+                        help='Path to csv file where save data. default=\"base.csv\"')
     parser.add_argument('-s', '--shortest_article', type=int, default=500,
-                        help='Shortest article length (letter count)')
+                        help='Shortest article length (characters), default=500')
 
     args = parser.parse_args()
     runner(args)
