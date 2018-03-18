@@ -18,7 +18,7 @@ def runner(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Generate data with language features.')
+    parser = argparse.ArgumentParser(description='Save cleared articles from wikipedia in one file.')
     parser.add_argument('-l', '--language', default='en',
                         help='Article language (type abbreviation, for example \'en\', \'pl\', default=\'en\')')
     parser.add_argument('-i', '--iterations', type=int, default=100,

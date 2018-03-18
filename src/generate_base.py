@@ -9,7 +9,7 @@ def runner(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Generate data with language features.')
+    parser = argparse.ArgumentParser(description='Analyze sentences and generate file with data.')
     parser.add_argument('-c', '--corpus_file', default="corpus.txt",
                         help='Path to txt file where save article texts. default=\"corpus.txt\"')
     parser.add_argument('-b', '--base_file', default="base.csv",
