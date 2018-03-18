@@ -35,3 +35,7 @@ class TestCalculateFeatures:
         assert letter_ratio[24] == 0 / 25
         assert letter_ratio[8] == 1 / 25
         assert letter_ratio[11] == 2 / 25
+
+    def test_clear_text(self):
+        text = self.base_gen.clear_text(SIMPLE_SENTENCE)
+        assert text == "Abćńa I'm xz. Ańżss ook woą ok Llo.."

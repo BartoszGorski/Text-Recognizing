@@ -1,7 +1,7 @@
 import argparse
 
-from base_gen.BaseGen import BaseGen
-from base_gen.CsvManager import write_to_csv_file
+from src.base_gen.BaseGen import BaseGen
+from src.base_gen.CsvManager import write_to_csv_file
 
 
 def runner(args):
