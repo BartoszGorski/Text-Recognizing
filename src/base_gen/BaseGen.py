@@ -16,6 +16,8 @@ class BaseGen:
         sentences_length = len(sentences)
         for idx, sentence in enumerate(sentences):
             analysed_sentence = self.__analyse_text(sentence, language)
+            if analysed_sentence is None:
+                continue
             write_to_csv_file(base_file, analysed_sentence)
             print("Analysed {} out of {} sentences.".format(idx + 1, sentences_length))
         print("Analysed data saved to {}".format(base_file))
@@ -26,6 +28,8 @@ class BaseGen:
 
     def __analyse_text(self, text, language):
         words = self.extract_words(text)
+        if len(words) <= 0:
+            return
         average_word_length = self.average_word_length(words)
         vowel_ratio = self.vowel_ratio(words)
         non_ascii_ratio = self.non_ascii_ratio(text)
