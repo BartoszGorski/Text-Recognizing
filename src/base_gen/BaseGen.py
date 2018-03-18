@@ -3,7 +3,7 @@ import string
 import nltk
 nltk.download('punkt')
 
-from src.base_gen.ArticleGetter import get_random_page
+from .ArticleGetter import get_random_page
 
 
 VOWELS = 'aeiouyAEIOUY'

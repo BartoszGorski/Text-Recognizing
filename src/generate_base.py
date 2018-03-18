@@ -1,7 +1,7 @@
 import argparse
 
-from src.base_gen.BaseGen import BaseGen
-from src.base_gen.CsvManager import write_to_csv_file
+from base_gen.BaseGen import BaseGen
+from base_gen.CsvManager import write_to_csv_file
 
 
 def save_text(text, corpus_file):
