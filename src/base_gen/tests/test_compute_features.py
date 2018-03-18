@@ -18,9 +18,6 @@ class TestCalculateFeatures:
         vowel_ratio = self.base_gen.vowel_ratio(self.words)
         assert vowel_ratio == 9 / 25
 
-    def test_average_words_in_sentences(self):
-        assert self.base_gen.average_words_in_sentences(len(self.words), SIMPLE_SENTENCE) == 10 / 2
-
     def test_non_ascii_ratio(self):
         assert self.base_gen.non_ascii_ratio(SIMPLE_SENTENCE) == 6 / len(SIMPLE_SENTENCE)
 
@@ -35,7 +32,3 @@ class TestCalculateFeatures:
         assert letter_ratio[24] == 0 / 25
         assert letter_ratio[8] == 1 / 25
         assert letter_ratio[11] == 2 / 25
-
-    def test_clear_text(self):
-        text = self.base_gen.clear_text(SIMPLE_SENTENCE)
-        assert text == "Abćńa I'm xz. Ańżss ook woą ok Llo.."
