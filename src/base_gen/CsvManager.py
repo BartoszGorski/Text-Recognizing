@@ -2,8 +2,8 @@ import csv
 import os.path
 import sys
 
-BASE_FORMAT = ['language', 'page_id', 'average_world_len', 'vowel_ratio',
-               'average_words_in_sentence', 'non_ascii_ratio', 'double_letter_ratio',
+BASE_FORMAT = ['language', 'average_world_len', 'vowel_ratio',
+               'words_in_sentence', 'non_ascii_ratio', 'double_letter_ratio',
                'double_vowel_ratio',
                'a_ratio',
                'b_ratio',
@@ -55,10 +55,9 @@ def write_to_csv_file(path, analysed):
 
 def unwrap_analyse(analysed):
     return [analysed['language'],
-            analysed['page_id'],
             analysed['word_length'],
             analysed['vowel_ratio'],
-            analysed['words_in_sentences'],
+            analysed['words_in_sentence'],
             analysed['non_ascii_ratio'],
             analysed['doubles_ratio']['doubles_letters'],
             analysed['doubles_ratio']['doubles_vowels'],

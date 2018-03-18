@@ -3,7 +3,7 @@ import string
 import nltk
 nltk.download('punkt')
 
-from .ArticleGetter import get_random_page
+from .CsvManager import write_to_csv_file
 
 
 VOWELS = 'aeiouyAEIOUY'
@@ -11,53 +11,31 @@ LETTERS = string.ascii_lowercase
 
 
 class BaseGen:
+    def generate_base(self, corpus_file, base_file, language):
+        sentences = self.__extract_sentences(corpus_file)
+        sentences_length = len(sentences)
+        for idx, sentence in enumerate(sentences):
+            analysed_sentence = self.__analyse_text(sentence, language)
+            write_to_csv_file(base_file, analysed_sentence)
+            print("Analysed {} out of {} sentences.".format(idx + 1, sentences_length))
+        print("Analysed data saved to {}".format(base_file))
 
-    def collect_articles_date(self, language='en', shortest_summary=500):
-        page_not_found = True
-        analysed = {}
-        while page_not_found:
-            page = get_random_page(language)
-            summary = self.__chop_summary(page.summary)
-            if len(summary) < shortest_summary:
-                continue
-            page_not_found = False
+    def __extract_sentences(self, corpus_file):
+        with open(corpus_file, "r") as file:
+            return nltk.sent_tokenize(file.read())
 
-            analysed = self.__analyse_text(summary)
-            cleared_text = self.clear_text(summary)
-            analysed['language'] = language
-            analysed['page_id']  = page.pageid
-        return cleared_text, analysed
-
-    def __chop_summary(self, summary):
-        return summary.split("\n\n")[0]
-
-    def __remove_non_words(self, text):
-        return re.sub(r'[^A-Za-zĄ-ż\'\"\. ]', '', text)
-
-    def __remove_newlines(self, text):
-        return text.replace('\n', ' ')
-
-    def __remove_manyspaces(self, text):
-        return re.sub(r'\s+', ' ', text)
-
-    def clear_text(self, text):
-        text = self.__remove_non_words(text)
-        text = self.__remove_newlines(text)
-        text = self.__remove_manyspaces(text)
-        return text
-
-    def __analyse_text(self, text):
+    def __analyse_text(self, text, language):
         words = self.extract_words(text)
         average_word_length = self.average_word_length(words)
         vowel_ratio = self.vowel_ratio(words)
-        average_words_in_sentences = self.average_words_in_sentences(len(words), text)
         non_ascii_ratio = self.non_ascii_ratio(text)
         doubles_ratio = self.double_letter_and_vowels_ratio(words)
         letter_ratio = self.alphabet_ratio(words)
         return {
+            'language': language,
             'word_length': average_word_length,
             'vowel_ratio': vowel_ratio,
-            'words_in_sentences': average_words_in_sentences,
+            'words_in_sentence': len(words),
             'non_ascii_ratio': non_ascii_ratio,
             'doubles_ratio': doubles_ratio,
             'letter_ratio': letter_ratio,
@@ -81,9 +59,6 @@ class BaseGen:
     def __ratio_in_text(self, words, variable_count):
         words_len = sum(len(word) for word in words)
         return variable_count / words_len
-
-    def average_words_in_sentences(self, words_len, text):
-        return words_len / len(nltk.sent_tokenize(text))
 
     def non_ascii_ratio(self, text):
         non_ascii = len(re.sub('[\x20-\x7e]', '', text))
