@@ -21,13 +21,30 @@ class BaseGen:
             if len(summary) < shortest_summary:
                 continue
             page_not_found = False
+
             analysed = self.__analyse_text(summary)
+            cleared_text = self.clear_text(summary)
             analysed['language'] = language
             analysed['page_id']  = page.pageid
         return analysed
 
     def __chop_summary(self, summary):
         return summary.split("\n\n")[0]
+
+    def __remove_non_words(self, text):
+        return re.sub(r'[^A-Za-zĄ-ż\'\"\. ]', '', text)
+
+    def __remove_newlines(self, text):
+        return text.replace('\n', ' ')
+
+    def __remove_manyspaces(self, text):
+        return re.sub(r'\s+', ' ', text)
+
+    def clear_text(self, text):
+        text = self.__remove_non_words(text)
+        text = self.__remove_newlines(text)
+        text = self.__remove_manyspaces(text)
+        return text
 
     def __analyse_text(self, text):
         words = self.extract_words(text)
