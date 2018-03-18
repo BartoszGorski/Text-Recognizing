@@ -26,7 +26,7 @@ class BaseGen:
             cleared_text = self.clear_text(summary)
             analysed['language'] = language
             analysed['page_id']  = page.pageid
-        return analysed
+        return cleared_text, analysed
 
     def __chop_summary(self, summary):
         return summary.split("\n\n")[0]
