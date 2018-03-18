@@ -9,6 +9,7 @@
 - nltk
 - pytest
 
+
 ## Install requirements
 To install requirements run:
 ```commandline
@@ -29,7 +30,8 @@ Options | Description
 -h, --help | Show this help message and exit
 -l LANGUAGE, --language LANGUAGE | Article language (type abbreviation, for example 'en', 'pl'). Default: 'en'
 -i ITERATIONS, --iterations ITERATIONS | Script iterations. Default: 100
--f FILE_NAME, --file_name FILE_NAME | Path to csv file where save data. Default="base.csv"
+-b BASE_FILE, --base_file BASE_FILE | Path to csv file where save data. Default="base.csv"
+-c CORPUS_FILE, --corpus_file CORPUS_FILE | Path to txt file where save article texts. Default="corpus.txt"
 -s SHORTEST_ARTICLE, --shortest_article SHORTEST_ARTICLE | Shortest article length (characters). Default=500
 
 
