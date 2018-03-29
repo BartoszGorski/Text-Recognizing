@@ -10,7 +10,7 @@ class BNCParser:
         sentencesList = xml.getElementsByTagName('s')
 
         for sentence in sentencesList:
-            sentenceBuffer = str('')
+            sentenceBuffer = ''
             if int(sentence.getAttribute('n')) > 2:
                 for word in sentence.childNodes:
                     if word.nodeType == minidom.Node.ELEMENT_NODE:
@@ -34,7 +34,7 @@ class BNCParser:
         xmlInDirList = []
 
         for file in filesInDirList:
-            if(file.find('.xml') != -1):
+            if(file.endswith('.xml') == True):
                 xmlInDirList.append(file)
 
         xmlListSize = len(xmlInDirList)
@@ -43,12 +43,12 @@ class BNCParser:
         for xml in xmlInDirList:
             currentFile += 1
             BNCParser.parseSingleXML(parsedDataContainer, directoryName + xml)
-            print("Parsing progress: ", int((currentFile/xmlListSize)*100), "%")
+            print("Parsing progress: {} %".format(int((currentFile/xmlListSize)*100)))
 
         print("Done!")
 
 
-    def writeToCsv(dataContainerToWrite = [], fileName = './output/BNC_parser/BNCorpus.csv', separator = ',', newLine = '\n'):
+    def writeToCsv(dataContainerToWrite = [], fileName = './BNC_parser/output/BNCorpus.csv', separator = ',', newLine = '\n'):
         with open(fileName, 'w+', newline = newLine) as csvfile:
             csvWriter = csv.writer(csvfile, delimiter = separator, quotechar = '"', quoting = csv.QUOTE_ALL)
             for sample in dataContainerToWrite:
