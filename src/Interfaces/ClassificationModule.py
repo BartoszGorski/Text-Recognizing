@@ -13,7 +13,7 @@ class ClassificationModule:
 
     #This method is used to classify sample to one of available LanguageTypes depending on its features values.
     #Returned value is enum LanguageType
-    def predict(features = []):
+    def predict(self, features = []):
         raise NotImplementedError
 
     #This float represents how accurate the module is. Precision is calculated in the following way:
