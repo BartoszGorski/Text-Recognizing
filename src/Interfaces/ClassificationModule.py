@@ -4,6 +4,7 @@ class LanguageType(Enum):
     unnatural = 0
     polish = 1
     english = 2
+    code = 3
 
 class ClassificationModule:
     #This method initializes whole module. It shall train/create classifier and calculate precision.
