@@ -1,4 +1,5 @@
 from enum import Enum
+from random import shuffle
 
 class LanguageType(Enum):
     unnatural = 0
@@ -9,13 +10,21 @@ class LanguageType(Enum):
 class ClassificationModule:
     #This method initializes whole module. It shall train/create classifier and calculate precision.
     #It shall also split the dataset in 'splitPoint' and save it to 'trainingDataset'.
-    def __init__(self, dataset = [], splitPoint = 0.5):
+    def __init__(self, dataset = [[]], splitPoint = 0.5):
         raise NotImplementedError
 
     #This method is used to classify sample to one of available LanguageTypes depending on its features values.
     #Returned value is enum LanguageType
     def predict(self, features = []):
         raise NotImplementedError
+
+    #Common method for splitting dataset thath should be used in constructor. Returns testDataset.
+    def splitDataset(self, dataset = [[]], splitPoint = 0.5):
+        shuffle(dataset)
+        samplesNumber = size(dataset)
+        testDataset = dataset[:int(samplesNumber*splitPoint),:]
+        self.trainingDataset = dataset[int(samplesNumber*splitPoint):,:]
+        return testDataset
 
     #This float represents how accurate the module is. Precision is calculated in the following way:
     # 1. Whole dataset is splitted into: trainingDataset and testDataset.
