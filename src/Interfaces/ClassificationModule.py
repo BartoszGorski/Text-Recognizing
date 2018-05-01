@@ -21,9 +21,9 @@ class ClassificationModule:
     #Common method for splitting dataset thath should be used in constructor. Returns testDataset.
     def splitDataset(self, dataset = [[]], splitPoint = 0.5):
         shuffle(dataset)
-        samplesNumber = size(dataset)
-        testDataset = dataset[:int(samplesNumber*splitPoint),:]
-        self.trainingDataset = dataset[int(samplesNumber*splitPoint):,:]
+        samplesNumber = len(dataset)
+        testDataset = dataset[:int(samplesNumber*splitPoint)][:]
+        self.trainingDataset = dataset[int(samplesNumber*splitPoint):][:]
         return testDataset
 
     #This float represents how accurate the module is. Precision is calculated in the following way:
