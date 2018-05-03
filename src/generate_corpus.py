@@ -1,6 +1,7 @@
 import argparse
 
 from base_gen.ArticleGetter import ArticleGetter
+from base_gen.RandomGenerator import generate_random_corpus
 
 
 def save_text(text, corpus_file):
@@ -10,11 +11,14 @@ def save_text(text, corpus_file):
 
 def runner(args):
     article_getter = ArticleGetter()
-    for i in range(args.iterations):
-        text = article_getter.get_article(args.language, args.shortest_article)
-        save_text(text, args.corpus_file)
-        print("{} - get {} article out of {}".format(args.language, i+1, args.iterations))
-    print("Articles saved to {}".format(args.corpus_file))
+    if args.language == "rn":
+        generate_random_corpus(args.iterations, args.corpus_file)
+    else:
+        for i in range(args.iterations):
+            text = article_getter.get_article(args.language, args.shortest_article)
+            save_text(text, args.corpus_file)
+            print("{} - get {} article out of {}".format(args.language, i+1, args.iterations))
+    print("Corpus saved to {}".format(args.corpus_file))
 
 
 if __name__ == "__main__":

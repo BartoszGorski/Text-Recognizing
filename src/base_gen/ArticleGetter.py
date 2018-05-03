@@ -1,6 +1,7 @@
 import wikipedia
 import re
 
+
 class ArticleGetter:
     def __get_random_page(self, language):
         wikipedia.set_lang(language)
