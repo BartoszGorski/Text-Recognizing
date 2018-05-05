@@ -22,6 +22,7 @@ class FeaturesGen:
                 continue
             analysed_text.append(analysed_sentence)
             print("Analysed {} out of {} sentences.".format(idx + 1, sentences_length))
+        return analysed_text
 
     def __extract_sentences(self, corpus_file):
         sentences = []
