@@ -26,9 +26,9 @@ class TestCalculateFeatures:
 
     def test_double_letters_and_vowels(self):
         doubles = self.features_gen.double_letter_and_vowels_ratio(SIMPLE_SENTENCE)
-        assert doubles['doubles_characters'] == 4 / self.characters_count
-        assert doubles['doubles_asci_letters'] == 3 / self.characters_count
-        assert doubles['doubles_vowels'] == 1 / self.characters_count
+        assert doubles[0] == 4 / self.characters_count
+        assert doubles[1] == 3 / self.characters_count
+        assert doubles[2] == 1 / self.characters_count
 
     def test_alphabet_ratio(self):
         letter_ratio = self.features_gen.alphabet_ratio(SIMPLE_SENTENCE)
