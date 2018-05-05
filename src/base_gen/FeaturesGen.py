@@ -4,9 +4,6 @@ import csv
 import nltk
 nltk.download('punkt')
 
-from .CsvManager import write_to_csv_file
-
-
 VOWELS = 'aeiouyAEIOUY'
 LETTERS = string.ascii_lowercase
 
