@@ -24,7 +24,7 @@ class FeaturesGen:
     def __extract_sentences(self, corpus_file):
         sentences = []
         with open(corpus_file, newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            reader = csv.reader(csvfile, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
             for row in reader:
                 sentences.append(row[0])
         return sentences
