@@ -7,6 +7,30 @@ nltk.download('punkt')
 VOWELS = 'aeiouyAEIOUY'
 LETTERS = string.ascii_lowercase
 
+'''
+Legend:
+index - name
+
+analysed text array:
+0 - language type,
+1 - average_word_length,
+2 - vowels_ratio,
+3 - average_words_count,
+4 - non_ascii_ratio,
+5 - spaces_ratio,
+doubles_ratio:
+6 - doubles_characters,
+7 - doubles_asci_letters,
+8 - doubles_vowels,
+letter_ratio (lower and upper case):
+9 - A,
+10 - B,
+11 - C,
+...
+32 - X,
+33 - Y,
+34 - Z,
+'''
 
 class FeaturesGen:
     def generate_features(self, corpus_file, language):
@@ -39,16 +63,11 @@ class FeaturesGen:
         doubles_ratio = self.double_letter_and_vowels_ratio(text)
         letter_ratio = self.alphabet_ratio(text)
         spaces_ratio = self.spaces_ratio(text)
-        return {
-            'language': language,
-            'word_length': average_word_length,
-            'vowel_ratio': vowel_ratio,
-            'words_in_sentence': len(words),
-            'non_ascii_ratio': non_ascii_ratio,
-            'doubles_ratio': doubles_ratio,
-            'letter_ratio': letter_ratio,
-            'spaces_ratio': spaces_ratio,
-        }
+        analysed_text = [language, average_word_length, vowel_ratio, len(words),
+                         non_ascii_ratio, spaces_ratio]
+        analysed_text.extend(doubles_ratio)
+        analysed_text.extend(letter_ratio)
+        return analysed_text
 
     def extract_tokens(self, text):
         return nltk.wordpunct_tokenize(text)
@@ -99,12 +118,11 @@ class FeaturesGen:
             is_last_vowel = is_vowel
 
             last_character = character
-        doubles = {
-            'doubles_characters' : self.__ratio_in_text(text, doubles_characters),
-            'doubles_asci_letters': self.__ratio_in_text(text, doubles_letter),
-            'doubles_vowels' : self.__ratio_in_text(text, doubles_vowel),
-        }
-        return doubles
+        return [
+            self.__ratio_in_text(text, doubles_characters),
+            self.__ratio_in_text(text, doubles_letter),
+            self.__ratio_in_text(text, doubles_vowel),
+        ]
 
     def alphabet_ratio(self, text):
         letter_ratio = []
