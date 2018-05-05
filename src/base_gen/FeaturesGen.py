@@ -96,7 +96,7 @@ class FeaturesGen:
 
     def double_letter_and_vowels_ratio(self, text):
         doubles_characters = 0
-        doubles_letter = 0
+        doubles_asci_letter = 0
         doubles_vowel = 0
 
         text = text.lower()
@@ -108,7 +108,7 @@ class FeaturesGen:
             is_vowel = character in VOWELS
 
             if character == last_character and is_letter:
-                doubles_letter += 1
+                doubles_asci_letter += 1
 
             if character == last_character:
                 doubles_characters += 1
@@ -120,7 +120,7 @@ class FeaturesGen:
             last_character = character
         return [
             self.__ratio_in_text(text, doubles_characters),
-            self.__ratio_in_text(text, doubles_letter),
+            self.__ratio_in_text(text, doubles_asci_letter),
             self.__ratio_in_text(text, doubles_vowel),
         ]
 
