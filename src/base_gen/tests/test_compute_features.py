@@ -36,3 +36,7 @@ class TestCalculateFeatures:
         assert letter_ratio[24] == 0 / self.characters_count
         assert letter_ratio[8] == 1 / self.characters_count
         assert letter_ratio[11] == 2 / self.characters_count
+
+    def test_spaces_ratio(self):
+        spaces_ratio = self.features_gen.spaces_ratio(SIMPLE_SENTENCE)
+        assert spaces_ratio == 9 / self.characters_count

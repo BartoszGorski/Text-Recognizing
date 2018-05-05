@@ -38,6 +38,7 @@ class FeaturesGen:
         non_ascii_ratio = self.non_ascii_ratio(text)
         doubles_ratio = self.double_letter_and_vowels_ratio(text)
         letter_ratio = self.alphabet_ratio(text)
+        spaces_ratio = self.spaces_ratio(text)
         return {
             'language': language,
             'word_length': average_word_length,
@@ -46,6 +47,7 @@ class FeaturesGen:
             'non_ascii_ratio': non_ascii_ratio,
             'doubles_ratio': doubles_ratio,
             'letter_ratio': letter_ratio,
+            'spaces_ratio': spaces_ratio,
         }
 
     def extract_tokens(self, text):
@@ -59,6 +61,11 @@ class FeaturesGen:
         vowels_count = len(re.findall('[{}]'.format(VOWELS), text))
         vowel_ratio = self.__ratio_in_text(text, vowels_count)
         return vowel_ratio
+
+    def spaces_ratio(self, text):
+        spaces_count = len(re.findall(' ', text))
+        spaces_ratio = self.__ratio_in_text(text, spaces_count)
+        return spaces_ratio
 
     def __ratio_in_text(self, text, variable_count):
         text_len = len(text)
