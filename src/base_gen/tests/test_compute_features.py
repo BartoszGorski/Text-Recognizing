@@ -1,34 +1,38 @@
-from ..BaseGen import BaseGen
+from ..FeaturesGen import FeaturesGen
 
 SIMPLE_SENTENCE = "Abćńa I'm 125 xz. Ańżss, 5% oo-k3 Ωw-oą ok Llo.."
 
 
 class TestCalculateFeatures:
     def setup_class(self):
-        self.base_gen = BaseGen()
-        self.words = self.base_gen.extract_words(SIMPLE_SENTENCE)
+        self.features_gen = FeaturesGen()
+        self.words = self.features_gen.extract_tokens(SIMPLE_SENTENCE)
+        self.sum_word_length = sum(len(word) for word in self.words)
+        self.characters_count = len(SIMPLE_SENTENCE)
+        self.tokens_count = len(self.features_gen.extract_tokens(SIMPLE_SENTENCE))
 
     def test_extract_words(self):
-        assert len(self.base_gen.extract_words(SIMPLE_SENTENCE)) == 10
+        assert len(self.features_gen.extract_tokens(SIMPLE_SENTENCE)) == 20
 
     def test_average_word_length(self):
-        assert self.base_gen.average_word_length(self.words) == 25 / 10
+        assert self.features_gen.average_word_length(self.words) == self.sum_word_length / self.tokens_count
 
     def test_vowel_ratio(self):
-        vowel_ratio = self.base_gen.vowel_ratio(self.words)
-        assert vowel_ratio == 9 / 25
+        vowel_ratio = self.features_gen.vowel_ratio(SIMPLE_SENTENCE)
+        assert vowel_ratio == 9 / self.characters_count
 
     def test_non_ascii_ratio(self):
-        assert self.base_gen.non_ascii_ratio(SIMPLE_SENTENCE) == 6 / len(SIMPLE_SENTENCE)
+        assert self.features_gen.non_ascii_ratio(SIMPLE_SENTENCE) == 6 / len(SIMPLE_SENTENCE)
 
     def test_double_letters_and_vowels(self):
-        doubles = self.base_gen.double_letter_and_vowels_ratio(self.words)
-        assert doubles['doubles_letters'] == 3 / 25
-        assert doubles['doubles_vowels']  == 1 / 25
+        doubles = self.features_gen.double_letter_and_vowels_ratio(SIMPLE_SENTENCE)
+        assert doubles['doubles_characters'] == 4 / self.characters_count
+        assert doubles['doubles_asci_letters'] == 3 / self.characters_count
+        assert doubles['doubles_vowels'] == 1 / self.characters_count
 
     def test_alphabet_ratio(self):
-        letter_ratio = self.base_gen.alphabet_ratio(self.words)
-        assert letter_ratio[0] == 3 / 25
-        assert letter_ratio[24] == 0 / 25
-        assert letter_ratio[8] == 1 / 25
-        assert letter_ratio[11] == 2 / 25
+        letter_ratio = self.features_gen.alphabet_ratio(SIMPLE_SENTENCE)
+        assert letter_ratio[0] == 3 / self.characters_count
+        assert letter_ratio[24] == 0 / self.characters_count
+        assert letter_ratio[8] == 1 / self.characters_count
+        assert letter_ratio[11] == 2 / self.characters_count
