@@ -32,7 +32,13 @@ letter_ratio (lower and upper case):
 34 - Z,
 '''
 
+
 class FeaturesGen:
+    def __init__(self, csv_newline='', csv_delimiter=',', csv_quoting=csv.QUOTE_ALL):
+        self.newline = csv_newline
+        self.delimiter = csv_delimiter
+        self.quoting = csv_quoting
+
     def generate_features(self, corpus_file, language):
         sentences = self.__extract_sentences(corpus_file)
         sentences_length = len(sentences)
@@ -47,8 +53,8 @@ class FeaturesGen:
 
     def __extract_sentences(self, corpus_file):
         sentences = []
-        with open(corpus_file, newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
+        with open(corpus_file, newline=self.newline) as csvfile:
+            reader = csv.reader(csvfile, delimiter=self.delimiter, quoting=self.quoting)
             for row in reader:
                 sentences.append(row[0])
         return sentences
