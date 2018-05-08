@@ -1,5 +1,5 @@
 from .test_compute_features import SIMPLE_SENTENCE
-from ..ArticleGetter import ArticleGetter
+from src.utils.ArticleGetter import ArticleGetter
 
 
 def test_clear_text():

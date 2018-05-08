@@ -138,3 +138,10 @@ class FeaturesGen:
             letter_count += lower_case_text.count(letter)
             letter_ratio.append(self.__ratio_in_text(text, letter_count))
         return letter_ratio
+
+
+if __name__ == "__main__":
+    fg = FeaturesGen()
+    array = fg.generate_features("/home/bgorski/workspace/Projects/TextRecognizing/codeCorpus.csv", "cd")
+    print(array[0])
+    print(len(array[0]))

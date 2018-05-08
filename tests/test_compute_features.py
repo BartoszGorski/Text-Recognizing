@@ -1,4 +1,4 @@
-from ..FeaturesGen import FeaturesGen
+from src.utils.FeaturesGen import FeaturesGen
 
 SIMPLE_SENTENCE = "Abćńa I'm 125 xz. Ańżss, 5% oo-k3 Ωw-oą ok Llo.."
 
