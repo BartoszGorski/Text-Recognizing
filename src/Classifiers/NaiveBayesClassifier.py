@@ -31,4 +31,4 @@ class NaiveBayesClassifier(ClassificationModule):
 
 
 dataset = prepare_corpus_dataset()
-NaiveBayesClassifier(dataset, type=NBType.multinomial.value)
+NaiveBayesClassifier(dataset, type=NBType.gauss.value)

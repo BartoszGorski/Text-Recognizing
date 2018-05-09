@@ -151,6 +151,10 @@ def prepare_corpus_dataset():
     cd_corpus = fg.generate_features("../../corpus/codeCorpus.csv", LanguageType.code.value)
     min_lenght = min(len(pl_corpus), len(en_corpus), len(nl_corpus), len(cd_corpus))
     print("Taking {} samples from each corpus".format(min_lenght))
+    print("pl_corpus {}".format(len(pl_corpus)))
+    print("en_corpus {}".format(len(en_corpus)))
+    print("nl_corpus {}".format(len(nl_corpus)))
+    print("cd_corpus {}".format(len(cd_corpus)))
     corpus = []
     corpus.extend(pl_corpus[:min_lenght])
     corpus.extend(en_corpus[:min_lenght])
