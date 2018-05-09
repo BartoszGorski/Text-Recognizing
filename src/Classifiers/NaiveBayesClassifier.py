@@ -1,12 +1,9 @@
-import sys
 from enum import Enum
-sys.path.append('../')
-
-from Interfaces.ClassificationModule import ClassificationModule
-from Interfaces.ClassificationModule import LanguageType
 from sklearn import naive_bayes
-from sklearn import metrics
-import numpy
+from sklearn.metrics import classification_report, confusion_matrix
+
+from src.Interfaces.ClassificationModule import ClassificationModule
+from src.utils.FeaturesGen import prepare_corpus_dataset
 
 
 class NBType(Enum):
@@ -16,35 +13,23 @@ class NBType(Enum):
 
 
 class NaiveBayesClassifier(ClassificationModule):
-    def __init__(self, dataset = [[]], type = NBType.gauss, splitPoint = 0.5):
-        testDataset = self.splitDataset(dataset, splitPoint)
+    def __init__(self, dataset, splitPoint=0.2, type = NBType.gauss.value):
+        X_train, X_test, y_train, y_test = self.splitDataset(dataset, splitPoint)
         
-        if type == NBType.gauss:
+        if type == NBType.gauss.value:
             self.classifier = naive_bayes.GaussianNB()
-        elif type == NBType.bernoulli:
+        elif type == NBType.bernoulli.value:
             self.classifier = naive_bayes.BernoulliNB()
         else:
             self.classifier = naive_bayes.MultinomialNB()
 
-        self.classifier.fit(numpy.array(self.trainingDataset)[:,:-1], numpy.array(self.trainingDataset)[:,-1])
+        self.classifier.fit(X_train, y_train)
 
-        testPrediction = self.classifier.predict(numpy.array(testDataset)[:,:-1])
-        self.precision = round(metrics.accuracy_score(testPrediction, numpy.array(testDataset)[:,-1]) * 100, 2)
-        print("Classifier precision is: ", self.precision)
+        prediction = self.predict(X_test)
 
-    def predict(self, features = []):
-        return LanguageType(self.classifier.predict(numpy.array(features).reshape(1, -1)))
+        print(confusion_matrix(y_test, prediction))
+        print(classification_report(y_test, prediction))
 
 
-#Fake data for classifier testing purpose. 
-testData = [[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3]]
-
-testPredictionData = [1,1,1,1,1.6]
-
-#testNB = NaiveBayesClassifier(testData, NBType.bernoulli, 0.5)
-#print(testNB.predict(testPredictionData))
+dataset = prepare_corpus_dataset()
+NaiveBayesClassifier(dataset, NBType.bernoulli.value)

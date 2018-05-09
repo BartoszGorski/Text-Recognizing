@@ -1,7 +1,5 @@
 from sklearn import neighbors
-from sklearn import metrics
 from sklearn.metrics import classification_report, confusion_matrix
-import numpy
 
 from src.Interfaces.ClassificationModule import ClassificationModule
 from src.utils.FeaturesGen import prepare_corpus_dataset
