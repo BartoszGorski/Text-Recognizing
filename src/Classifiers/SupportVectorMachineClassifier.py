@@ -32,4 +32,4 @@ class SupportVectorMachineClassifier(ClassificationModule):
 
 
 dataset = prepare_corpus_dataset()
-SupportVectorMachineClassifier(dataset, SVMType.c.value)
+SupportVectorMachineClassifier(dataset, type=SVMType.c.value)

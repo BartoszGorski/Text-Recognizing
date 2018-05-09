@@ -13,16 +13,15 @@ class NBType(Enum):
 
 
 class NaiveBayesClassifier(ClassificationModule):
-    def __init__(self, dataset, splitPoint=0.2, type = NBType.gauss.value):
+    def __init__(self, dataset, splitPoint=0.2, type=NBType.gauss.value):
         X_train, X_test, y_train, y_test = self.splitDataset(dataset, splitPoint)
-        
+
         if type == NBType.gauss.value:
             self.classifier = naive_bayes.GaussianNB()
         elif type == NBType.bernoulli.value:
             self.classifier = naive_bayes.BernoulliNB()
         else:
             self.classifier = naive_bayes.MultinomialNB()
-
         self.classifier.fit(X_train, y_train)
 
         prediction = self.predict(X_test)
@@ -32,4 +31,4 @@ class NaiveBayesClassifier(ClassificationModule):
 
 
 dataset = prepare_corpus_dataset()
-NaiveBayesClassifier(dataset, NBType.bernoulli.value)
+NaiveBayesClassifier(dataset, type=NBType.multinomial.value)

@@ -6,8 +6,9 @@ from src.utils.FeaturesGen import prepare_corpus_dataset
 
 
 class NearestNeighborsClassifier(ClassificationModule):
-    def __init__(self, dataset, splitPoint=0.2, neighborsNumber = 5):
+    def __init__(self, dataset, splitPoint=0.2, neighborsNumber=5):
         X_train, X_test, y_train, y_test = self.splitDataset(dataset, splitPoint)
+
         self.classifier = neighbors.KNeighborsClassifier(neighborsNumber)
         self.classifier.fit(X_train, y_train)
 
