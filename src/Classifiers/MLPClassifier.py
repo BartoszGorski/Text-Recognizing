@@ -12,10 +12,10 @@ class MultiLayerPerceptronClassifier(ClassificationModule):
         self.mlp = MLPClassifier(hidden_layer_sizes=(40, 30, 20), max_iter=1000)
         self.mlp.fit(X_train, y_train)
 
-        predictions = self.predict(X_test)
+        prediction = self.predict(X_test)
 
-        print(confusion_matrix(y_test, predictions))
-        print(classification_report(y_test, predictions))
+        print(confusion_matrix(y_test, prediction))
+        print(classification_report(y_test, prediction))
 
     def predict(self, test_data):
         return self.mlp.predict(test_data)
