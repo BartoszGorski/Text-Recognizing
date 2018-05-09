@@ -18,9 +18,6 @@ class NearestNeighborsClassifier(ClassificationModule):
         print(confusion_matrix(y_test, prediction))
         print(classification_report(y_test, prediction))
 
-    def predict(self, features):
-        return self.classifier.predict(features)
-
 
 dataset = prepare_corpus_dataset()
 NearestNeighborsClassifier(dataset)

@@ -17,9 +17,6 @@ class MultiLayerPerceptronClassifier(ClassificationModule):
         print(confusion_matrix(y_test, prediction))
         print(classification_report(y_test, prediction))
 
-    def predict(self, test_data):
-        return self.mlp.predict(test_data)
-
 
 dataset = prepare_corpus_dataset()
 MultiLayerPerceptronClassifier(dataset)

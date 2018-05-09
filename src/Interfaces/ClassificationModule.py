@@ -15,8 +15,8 @@ class ClassificationModule:
 
     #This method is used to classify sample to one of available LanguageTypes depending on its features values.
     #Returned value is enum LanguageType
-    def predict(self, features):
-        raise NotImplementedError
+    def predict(self, test_data):
+        return self.classifier.predict(test_data)
 
     #Common method for splitting dataset thath should be used in constructor. Returns testDataset.
     def splitDataset(self, dataset, splitPoint=0.2):
