@@ -1,21 +1,30 @@
 import sys
+from enum import Enum
 sys.path.append('../')
 
 from Interfaces.ClassificationModule import ClassificationModule
 from Interfaces.ClassificationModule import LanguageType
-from sklearn import neighbors
+from sklearn import naive_bayes
 from sklearn import metrics
 import numpy
-#from sklearn import naive_bayes
-#from sklearn import svm
-#from sklearn import tree
-#from sklearn import neural_network
 
 
-class NearestNeighborsClassifier(ClassificationModule):
-    def __init__(self, dataset = [[]], splitPoint = 0.5, neighborsNumber = 5):
+class NBType(Enum):
+    gauss = 0
+    bernoulli = 1
+    multinomial = 2
+
+
+class NaiveBayesClassifier(ClassificationModule):
+    def __init__(self, dataset = [[]], type = NBType.gauss, splitPoint = 0.5):
         testDataset = self.splitDataset(dataset, splitPoint)
-        self.classifier = neighbors.KNeighborsClassifier(neighborsNumber)
+        
+        if type == NBType.gauss:
+            self.classifier = naive_bayes.GaussianNB()
+        elif type == NBType.bernoulli:
+            self.classifier = naive_bayes.BernoulliNB()
+        else:
+            self.classifier = naive_bayes.MultinomialNB()
 
         self.classifier.fit(numpy.array(self.trainingDataset)[:,:-1], numpy.array(self.trainingDataset)[:,-1])
 
@@ -35,7 +44,7 @@ testData = [[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3]
 [1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
 [1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3]]
 
-testPredictionData = [1,2,3,4,5.6]
+testPredictionData = [1,1,1,1,1.6]
 
-#testKNN = NearestNeighborsClassifier(testData, 0.5)
-#print(testKNN.predict(testPredictionData))
+#testNB = NaiveBayesClassifier(testData, NBType.bernoulli, 0.5)
+#print(testNB.predict(testPredictionData))

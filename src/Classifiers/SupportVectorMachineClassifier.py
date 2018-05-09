@@ -1,21 +1,30 @@
 import sys
+from enum import Enum
 sys.path.append('../')
 
 from Interfaces.ClassificationModule import ClassificationModule
 from Interfaces.ClassificationModule import LanguageType
-from sklearn import neighbors
+from sklearn import svm
 from sklearn import metrics
 import numpy
-#from sklearn import naive_bayes
-#from sklearn import svm
-#from sklearn import tree
-#from sklearn import neural_network
 
 
-class NearestNeighborsClassifier(ClassificationModule):
-    def __init__(self, dataset = [[]], splitPoint = 0.5, neighborsNumber = 5):
+class SVMType(Enum):
+    linear = 0
+    nu = 1
+    c = 2
+
+
+class SupportVectorMachineClassifier(ClassificationModule):
+    def __init__(self, dataset = [[]], type = SVMType.linear, splitPoint = 0.5):
         testDataset = self.splitDataset(dataset, splitPoint)
-        self.classifier = neighbors.KNeighborsClassifier(neighborsNumber)
+        
+        if type == SVMType.linear:
+            self.classifier = svm.LinearSVC()
+        elif type == SVMType.nu:
+            self.classifier = svm.NuSVC()
+        else:
+            self.classifier = svm.SVC()
 
         self.classifier.fit(numpy.array(self.trainingDataset)[:,:-1], numpy.array(self.trainingDataset)[:,-1])
 
@@ -35,7 +44,7 @@ testData = [[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3]
 [1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
 [1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3]]
 
-testPredictionData = [1,2,3,4,5.6]
+testPredictionData = [1,1,1,1,1.6]
 
-#testKNN = NearestNeighborsClassifier(testData, 0.5)
-#print(testKNN.predict(testPredictionData))
+#testSVM = SupportVectorMachineClassifier(testData, SVMType.c)
+#print(testSVM.predict(testPredictionData))
