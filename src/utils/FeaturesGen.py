@@ -4,6 +4,9 @@ import csv
 import nltk
 nltk.download('punkt')
 
+from src.Interfaces.ClassificationModule import LanguageType
+
+
 VOWELS = 'aeiouyAEIOUY'
 LETTERS = string.ascii_lowercase
 
@@ -140,8 +143,17 @@ class FeaturesGen:
         return letter_ratio
 
 
-if __name__ == "__main__":
+def prepare_corpus_dataset():
     fg = FeaturesGen()
-    array = fg.generate_features("/home/bgorski/workspace/Projects/TextRecognizing/codeCorpus.csv", "cd")
-    print(array[0])
-    print(len(array[0]))
+    pl_corpus = fg.generate_features("../../corpus/plCorpus.csv", LanguageType.polish.value)
+    en_corpus = fg.generate_features("../../corpus/engCorpus.csv", LanguageType.english.value)
+    nl_corpus = fg.generate_features("../../corpus/nonLanguageCorpus.csv", LanguageType.unnatural.value)
+    cd_corpus = fg.generate_features("../../corpus/codeCorpus.csv", LanguageType.code.value)
+    min_lenght = min(len(pl_corpus), len(en_corpus), len(nl_corpus), len(cd_corpus))
+    print("Taking {} samples from each corpus".format(min_lenght))
+    corpus = []
+    corpus.extend(pl_corpus[:min_lenght])
+    corpus.extend(en_corpus[:min_lenght])
+    corpus.extend(nl_corpus[:min_lenght])
+    corpus.extend(cd_corpus[:min_lenght])
+    return corpus
