@@ -1,12 +1,9 @@
-import sys
 from enum import Enum
-sys.path.append('../')
-
-from Interfaces.ClassificationModule import ClassificationModule
-from Interfaces.ClassificationModule import LanguageType
 from sklearn import svm
-from sklearn import metrics
-import numpy
+from sklearn.metrics import classification_report, confusion_matrix
+
+from src.Interfaces.ClassificationModule import ClassificationModule
+from src.utils.FeaturesGen import prepare_corpus_dataset
 
 
 class SVMType(Enum):
@@ -16,35 +13,23 @@ class SVMType(Enum):
 
 
 class SupportVectorMachineClassifier(ClassificationModule):
-    def __init__(self, dataset = [[]], type = SVMType.linear, splitPoint = 0.5):
-        testDataset = self.splitDataset(dataset, splitPoint)
+    def __init__(self, dataset, splitPoint=0.2, type=SVMType.linear.value):
+        X_train, X_test, y_train, y_test = self.splitDataset(dataset, splitPoint)
         
-        if type == SVMType.linear:
+        if type == SVMType.linear.value:
             self.classifier = svm.LinearSVC()
-        elif type == SVMType.nu:
+        elif type == SVMType.nu.value:
             self.classifier = svm.NuSVC()
         else:
             self.classifier = svm.SVC()
 
-        self.classifier.fit(numpy.array(self.trainingDataset)[:,:-1], numpy.array(self.trainingDataset)[:,-1])
+        self.classifier.fit(X_train, y_train)
 
-        testPrediction = self.classifier.predict(numpy.array(testDataset)[:,:-1])
-        self.precision = round(metrics.accuracy_score(testPrediction, numpy.array(testDataset)[:,-1]) * 100, 2)
-        print("Classifier precision is: ", self.precision)
+        prediction = self.predict(X_test)
 
-    def predict(self, features = []):
-        return LanguageType(self.classifier.predict(numpy.array(features).reshape(1, -1)))
+        print(confusion_matrix(y_test, prediction))
+        print(classification_report(y_test, prediction))
 
 
-#Fake data for classifier testing purpose. 
-testData = [[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3],
-[1,2,3,4,5.6,0], [13,5,5,5,2.3,1], [6,5,4,3,2.1,2], [10,9,8,7,6.5,3]]
-
-testPredictionData = [1,1,1,1,1.6]
-
-#testSVM = SupportVectorMachineClassifier(testData, SVMType.c)
-#print(testSVM.predict(testPredictionData))
+dataset = prepare_corpus_dataset()
+SupportVectorMachineClassifier(dataset, type=SVMType.linear.value)
