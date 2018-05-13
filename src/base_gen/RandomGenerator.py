@@ -2,17 +2,20 @@ import random
 import string
 import csv
 
-CHARACTERS = string.punctuation.translate({ord(c): None for c in ".!?\"\'"}) + \
-             string.ascii_letters * 2 + string.ascii_lowercase * 4
+# CHARACTERS = string.punctuation.translate({ord(c): None for c in ".!?\"\'"}) + \
+#              string.ascii_letters * 2 + string.ascii_lowercase * 4
+
+CHARACTERS = string.ascii_letters + string.ascii_lowercase * 4
+
 CHARACTERS_LEN = len(CHARACTERS)
 
 
 def generate_random_corpus(sentences_count, corpus_path):
     for i in range(sentences_count):
-        words_in_sentence = random.randint(1, 30)
+        words_in_sentence = random.randint(25, 50)
         text = "{}.".format(__generate_random_sentence(words_in_sentence))
         with open(corpus_path, 'a', newline='') as csvfile:
-            csv_writer = csv.writer(csvfile, delimiter='\t')
+            csv_writer = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_ALL)
             csv_writer.writerow([text, "RN"])
         print("{}/{} Sentence saved".format(i + 1, sentences_count))
 
@@ -46,3 +49,6 @@ def __generate_random_text(sentences_count):
         text = "{}{}.".format(text, sentence)
         sentences_count -= 1
     return text
+
+
+generate_random_corpus(sentences_count=15000, corpus_path='rnCorpus.csv')
