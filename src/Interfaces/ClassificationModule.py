@@ -1,11 +1,19 @@
 from enum import Enum
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 class LanguageType(Enum):
     unnatural = 0
     polish = 1
     english = 2
     code = 3
+
+
+class ClassifierFitting(Enum):
+    ok = 0
+    under = 1
+    over = 2
+
 
 class ClassificationModule:
     #This method initializes whole module. It shall train/create classifier and calculate precision.
@@ -27,6 +35,32 @@ class ClassificationModule:
             y.append(dataset[i][0])
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=splitPoint)
         return X_train, X_test, y_train, y_test
+
+    #Method for detecting under/overfitting of classifier. Returns ClassifierFitting enum value.
+    def checkFitting(self, X_train, X_test, y_train, y_test, tolerance = 0.1):
+        trainingDatasetPrediction = self.predict(X_train)
+        testDatasetPrediction = self.predict(X_test)
+
+        trainingDatasetAccuracy = accuracy_score(y_train, trainingDatasetPrediction) * 100
+        testDatasetAccuracy = accuracy_score(y_test, testDatasetPrediction) * 100
+
+        print("checkFitting:: Training dataset accuracy: ", trainingDatasetAccuracy)
+        print("checkFitting:: Test dataset accuracy: ", testDatasetAccuracy)
+
+        maxTolerance = (1.0 + tolerance) * trainingDatasetAccuracy
+        minTolerance = (1.0 - tolerance) * trainingDatasetAccuracy
+
+        if testDatasetAccuracy > maxTolerance:
+            fittingResult = ClassifierFitting.under
+            print("checkFitting:: Classifier UNDERFITTING detected!!!")
+        elif testDatasetAccuracy < minTolerance:
+            fittingResult = ClassifierFitting.over
+            print("checkFitting:: Classifier OVERFITTING detected!!!")
+        else:
+            fittingResult = ClassifierFitting.ok
+            print("checkFitting:: Classifier fitted OK!!!")
+
+        return fittingResult
 
     #This float represents how accurate the module is. Precision is calculated in the following way:
     # 1. Whole dataset is splitted into: trainingDataset and testDataset.
