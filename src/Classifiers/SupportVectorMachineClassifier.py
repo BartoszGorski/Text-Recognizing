@@ -24,6 +24,7 @@ class SupportVectorMachineClassifier(ClassificationModule):
             self.classifier = svm.SVC()
 
         self.classifier.fit(X_train, y_train)
+        self.checkFitting(X_train, X_test, y_train, y_test)
 
         prediction = self.predict(X_test)
 
