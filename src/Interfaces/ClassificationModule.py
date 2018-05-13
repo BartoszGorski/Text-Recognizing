@@ -7,6 +7,7 @@ class LanguageType(Enum):
     polish = 1
     english = 2
     code = 3
+    random = 4
 
 
 class ClassifierFitting(Enum):
