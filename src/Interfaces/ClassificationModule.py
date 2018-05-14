@@ -32,7 +32,7 @@ class ClassificationModule:
         X = []
         y = []
         for i in range(len(dataset)):
-            X.append(dataset[i][0:])
+            X.append(dataset[i][1:])
             y.append(dataset[i][0])
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=splitPoint)
         return X_train, X_test, y_train, y_test
