@@ -1,8 +1,8 @@
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 
-from src.Interfaces.ClassificationModule import ClassificationModule
-from src.utils.FeaturesGen import prepare_corpus_dataset
+from Interfaces.ClassificationModule import ClassificationModule
+
 
 
 class MultiLayerPerceptronClassifier(ClassificationModule):
@@ -18,7 +18,3 @@ class MultiLayerPerceptronClassifier(ClassificationModule):
 
         print(confusion_matrix(y_test, prediction))
         print(classification_report(y_test, prediction))
-
-
-dataset = prepare_corpus_dataset()
-MultiLayerPerceptronClassifier(dataset)
