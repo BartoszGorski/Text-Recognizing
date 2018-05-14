@@ -62,7 +62,7 @@ class FeaturesGen:
                 sentences.append(row[0])
         return sentences
 
-    def analyse_text(self, text, language):
+    def analyse_text(self, text, language='xx'):
         words = self.extract_tokens(text)
         if len(words) <= 0:
             return

@@ -1,6 +1,7 @@
 from enum import Enum
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.externals import joblib
 
 class LanguageType(Enum):
     unnatural = 0
@@ -62,6 +63,14 @@ class ClassificationModule:
             print("checkFitting:: Classifier fitted OK!!!")
 
         return fittingResult
+
+    @staticmethod
+    def save_classifier(classifier, filename):
+        joblib.dump(classifier, filename)
+
+    @staticmethod
+    def load_classifier(filename):
+        return joblib.load(filename)
 
     #This float represents how accurate the module is. Precision is calculated in the following way:
     # 1. Whole dataset is splitted into: trainingDataset and testDataset.

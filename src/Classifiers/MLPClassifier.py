@@ -11,6 +11,7 @@ class MultiLayerPerceptronClassifier(ClassificationModule):
 
         self.classifier = MLPClassifier(hidden_layer_sizes=(40, 30, 20), max_iter=1000)
         self.classifier.fit(X_train, y_train)
+        self.save_classifier(self.classifier, 'MLP.pkl')
         self.checkFitting(X_train, X_test, y_train, y_test)
 
         prediction = self.predict(X_test)
