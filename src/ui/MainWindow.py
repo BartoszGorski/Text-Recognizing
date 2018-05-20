@@ -1,20 +1,28 @@
 import tkinter
 
-
-# from src.Interfaces.ClassificationModule import ClassificationModule
-# from src.Classifiers.MLPClassifier import *
-# from src.Classifiers.NaiveBayesClassifier import *
-# from src.Classifiers.NearestNeighborsClassifier import *
-# from src.Classifiers.SupportVectorMachineClassifier import *
+from Interfaces.ClassificationModule import ClassificationModule, LanguageType
+from utils.FeaturesGen import FeaturesGen
 
 
 class UI:
     def __init__(self, classifiersDict=dict()):
         self.modulesDictionary = dict()
+        self.loadClassifiers()
         self.mainWindow = tkinter.Tk()
         self.initManagementFrame(classifiersDict)
         self.initClassificationFrame()
         self.initMainLayout()
+        self.featuresGenerator = FeaturesGen()
+
+    def loadClassifiers(self):
+        self.classifiers = {
+            'MLP': ClassificationModule.load_classifier('../classifiers_pkl/MLP.pkl'),
+            'NaiveBayes': ClassificationModule.load_classifier(
+                '../classifiers_pkl/NaiveBayes.pkl'),
+            'NearestNeighbors': ClassificationModule.load_classifier(
+                '../classifiers_pkl/NearestNeighbors.pkl'),
+            'SVM': ClassificationModule.load_classifier('../classifiers_pkl/SVM.pkl')
+        }
 
     def initMainLayout(self):
         self.managementLabel.grid(column=0, row=0)
