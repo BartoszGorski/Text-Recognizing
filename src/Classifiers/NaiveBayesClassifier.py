@@ -2,8 +2,7 @@ from enum import Enum
 from sklearn import naive_bayes
 from sklearn.metrics import classification_report, confusion_matrix
 
-from src.Interfaces.ClassificationModule import ClassificationModule
-from src.utils.FeaturesGen import prepare_corpus_dataset
+from Interfaces.ClassificationModule import ClassificationModule
 
 
 class NBType(Enum):
@@ -23,13 +22,10 @@ class NaiveBayesClassifier(ClassificationModule):
         else:
             self.classifier = naive_bayes.MultinomialNB()
         self.classifier.fit(X_train, y_train)
+        self.save_classifier(self.classifier, 'NaiveBayes.pkl')
         self.checkFitting(X_train, X_test, y_train, y_test)
 
         prediction = self.predict(X_test)
 
         print(confusion_matrix(y_test, prediction))
         print(classification_report(y_test, prediction))
-
-
-dataset = prepare_corpus_dataset()
-NaiveBayesClassifier(dataset, type=NBType.gauss.value)

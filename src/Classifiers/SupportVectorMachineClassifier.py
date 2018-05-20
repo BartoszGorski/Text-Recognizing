@@ -2,8 +2,7 @@ from enum import Enum
 from sklearn import svm
 from sklearn.metrics import classification_report, confusion_matrix
 
-from src.Interfaces.ClassificationModule import ClassificationModule
-from src.utils.FeaturesGen import prepare_corpus_dataset
+from Interfaces.ClassificationModule import ClassificationModule
 
 
 class SVMType(Enum):
@@ -24,13 +23,10 @@ class SupportVectorMachineClassifier(ClassificationModule):
             self.classifier = svm.SVC()
 
         self.classifier.fit(X_train, y_train)
+        self.save_classifier(self.classifier, 'SVM.pkl')
         self.checkFitting(X_train, X_test, y_train, y_test)
 
         prediction = self.predict(X_test)
 
         print(confusion_matrix(y_test, prediction))
         print(classification_report(y_test, prediction))
-
-
-dataset = prepare_corpus_dataset()
-SupportVectorMachineClassifier(dataset, type=SVMType.linear.value)

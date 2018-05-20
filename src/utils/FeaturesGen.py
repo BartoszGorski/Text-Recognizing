@@ -4,7 +4,7 @@ import csv
 import nltk
 nltk.download('punkt')
 
-from src.Interfaces.ClassificationModule import LanguageType
+from Interfaces.ClassificationModule import LanguageType
 
 
 VOWELS = 'aeiouyAEIOUY'
@@ -62,7 +62,7 @@ class FeaturesGen:
                 sentences.append(row[0])
         return sentences
 
-    def analyse_text(self, text, language):
+    def analyse_text(self, text, language='xx'):
         words = self.extract_tokens(text)
         if len(words) <= 0:
             return
@@ -145,11 +145,11 @@ class FeaturesGen:
 
 def prepare_corpus_dataset():
     fg = FeaturesGen()
-    pl_corpus = fg.generate_features("../../corpus/plCorpus.csv", LanguageType.polish.value)
-    en_corpus = fg.generate_features("../../corpus/engCorpus.csv", LanguageType.english.value)
-    nl_corpus = fg.generate_features("../../corpus/nonLanguageCorpus.csv", LanguageType.unnatural.value)
-    cd_corpus = fg.generate_features("../../corpus/codeCorpus.csv", LanguageType.code.value)
-    rn_corpus = fg.generate_features("../../corpus/rnCorpus.csv", LanguageType.random.value)
+    pl_corpus = fg.generate_features("../corpus/plCorpus.csv", LanguageType.polish.value)
+    en_corpus = fg.generate_features("../corpus/engCorpus.csv", LanguageType.english.value)
+    nl_corpus = fg.generate_features("../corpus/nonLanguageCorpus.csv", LanguageType.unnatural.value)
+    cd_corpus = fg.generate_features("../corpus/codeCorpus.csv", LanguageType.code.value)
+    rn_corpus = fg.generate_features("../corpus/rnCorpus.csv", LanguageType.random.value)
     min_lenght = min(len(pl_corpus), len(en_corpus), len(nl_corpus), len(cd_corpus), len(rn_corpus))
     print("Taking {} samples from each corpus".format(min_lenght))
     print("pl_corpus {}".format(len(pl_corpus)))
