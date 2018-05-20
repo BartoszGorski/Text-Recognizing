@@ -12,14 +12,13 @@ class UI:
     def __init__(self, classifiersDict=dict()):
         self.modulesDictionary = dict()
         self.mainWindow = tkinter.Tk()
-        self.mainWindow.geometry("600x440")
         self.initManagementFrame(classifiersDict)
         self.initClassificationFrame()
         self.initMainLayout()
 
     def initMainLayout(self):
         self.managementLabel.grid(column=0, row=0)
-        self.managementFrame.grid(column=0, row=1, padx=30,
+        self.managementFrame.grid(column=0, row=1,
                                   sticky=tkinter.W + tkinter.E + tkinter.N + tkinter.S)
         self.classificationLabel.grid(column=1, row=0)
         self.classificationFrame.grid(column=1, row=1,
