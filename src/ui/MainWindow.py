@@ -100,9 +100,7 @@ class UI:
             self.classifierTypeListbox.curselection())
         moduleName = self.createTextBox.get()
         self.createTextBox.delete(0, tkinter.END)
-
-        self.modulesDictionary[
-            moduleName] = 1  # create proper classifier via dictionary, for example: MLPClassifier
+        self.modulesDictionary[moduleName] = self.classifiers[classifierTypeSelected]
         self.setClassifierListboxElements(self.modulesDictionary)
 
     def onClickRemoveButton(self, event):
@@ -111,15 +109,12 @@ class UI:
         self.setClassifierListboxElements(self.modulesDictionary)
 
     def onClickClassifyButton(self, event):
-        moduleSelected = self.classifierListbox.get(self.classifierListbox.curselection())
-        textToClassify = self.classifyTextBox.get()
-        # predictionResult = self.modulesDictionary[moduleSelected].predict(textToClassify) #send features container as parameter
-        scoreLabelNewText = self.scoreLabel.cget(
-            "text") + "PREDICTION RESULT"  # add predicitionResult here
+        if not self.classifierListbox.curselection():
+            scoreLabelNewText = "Wynik klasyfikacji: wybierz moduł klasyfikacyjny"
+        else:
+            moduleSelected = self.classifierListbox.get(self.classifierListbox.curselection())
+            textToClassify = self.classifyTextBox.get()
+            analysedText = self.featuresGenerator.analyse_text(textToClassify)[1:]
+            predictionResult = self.modulesDictionary[moduleSelected].predict([analysedText])
+            scoreLabelNewText = "Wynik klasyfikacji: {}".format(LanguageType(predictionResult).name)
         self.scoreLabel.config(text=scoreLabelNewText)
-
-
-# classifiersDictionary = {'MLP': MLPClassifier, 'Naive Bayes': NaiveBayesClassifier, 'Nearest Neighbors': NearestNeighborsClassifier, 'SVM': SupportVectorMachineClassifier}
-classifiersDictionary = {'MLP': 1, 'Naive Bayes': 2, 'Nearest Neighbors': 3, 'SVM': 4}
-userInterface = UI(classifiersDictionary)
-userInterface.mainWindow.mainloop()
