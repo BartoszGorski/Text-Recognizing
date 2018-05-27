@@ -15,7 +15,7 @@ class UI:
         self.featuresGenerator = FeaturesGen()
 
     def loadClassifiers(self):
-        self.classifiers = {
+        self.modulesDictionary = {
             'MLP': ClassificationModule.load_classifier('../classifiers_pkl/MLP.pkl'),
             'NaiveBayes': ClassificationModule.load_classifier(
                 '../classifiers_pkl/NaiveBayes.pkl'),
@@ -54,6 +54,7 @@ class UI:
                                                  relief=tkinter.GROOVE)
         self.classificationLabel = tkinter.Label(self.mainWindow, text="Klasyfikacja")
         self.classifierListbox = tkinter.Listbox(self.classificationFrame)
+        self.setClassifierListboxElements(self.modulesDictionary)
         self.classifierLabel = tkinter.Label(self.classificationFrame,
                                              text="Moduły klasyfikujące")
         self.classifyButton = tkinter.Button(self.classificationFrame, text="Klasyfikuj")
