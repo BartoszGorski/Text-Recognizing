@@ -25,11 +25,11 @@ class UI:
         }
 
     def initMainLayout(self):
-        self.managementLabel.grid(column=0, row=0)
-        self.managementFrame.grid(column=0, row=1,
-                                  sticky=tkinter.W + tkinter.E + tkinter.N + tkinter.S)
-        self.classificationLabel.grid(column=1, row=0)
-        self.classificationFrame.grid(column=1, row=1,
+        #self.managementLabel.grid(column=0, row=0)
+        #self.managementFrame.grid(column=0, row=1,
+                                  #sticky=tkinter.W + tkinter.E + tkinter.N + tkinter.S)
+        self.classificationLabel.grid(column=0, row=0)
+        self.classificationFrame.grid(column=0, row=1,
                                       sticky=tkinter.W + tkinter.E + tkinter.N + tkinter.S)
 
     def initManagementFrameLayout(self):
@@ -42,7 +42,7 @@ class UI:
     def initClassificationFrameLayout(self):
         self.classifierLabel.pack(pady=(30, 0))
         self.classifierListbox.pack(padx=30)
-        self.removeButton.pack(pady=(5, 25))
+        #self.removeButton.pack(pady=(5, 25))
         self.classifyTextBoxLabel.pack()
         self.classifyTextBox.pack(padx=15)
         self.classifyButton.pack(pady=(5, 0))
