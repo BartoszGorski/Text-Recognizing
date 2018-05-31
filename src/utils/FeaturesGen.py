@@ -5,6 +5,7 @@ import nltk
 nltk.download('punkt')
 
 from Interfaces.ClassificationModule import LanguageType
+from utils.CommonWords import get_most_common_words
 
 
 VOWELS = 'aeiouyAEIOUY'
@@ -21,6 +22,8 @@ analysed text array:
 3 - average_words_count,
 4 - non_ascii_ratio,
 5 - spaces_ratio,
+6 - pl_common_ratio, 
+7 - en_common_ratio,
 doubles_ratio:
 6 - doubles_characters,
 7 - doubles_asci_letters,
@@ -41,6 +44,7 @@ class FeaturesGen:
         self.newline = csv_newline
         self.delimiter = csv_delimiter
         self.quoting = csv_quoting
+        self.en_word_list, self.pl_word_list = get_most_common_words()
 
     def generate_features(self, corpus_file, language):
         sentences = self.__extract_sentences(corpus_file)
@@ -66,14 +70,16 @@ class FeaturesGen:
         words = self.extract_tokens(text)
         if len(words) <= 0:
             return
+        avg_words = self.__ratio_in_text(text, len(words))
         average_word_length = self.average_word_length(words)
         vowel_ratio = self.vowel_ratio(text)
         non_ascii_ratio = self.non_ascii_ratio(text)
         doubles_ratio = self.double_letter_and_vowels_ratio(text)
         letter_ratio = self.alphabet_ratio(text)
         spaces_ratio = self.spaces_ratio(text)
-        analysed_text = [language, average_word_length, vowel_ratio, len(words),
-                         non_ascii_ratio, spaces_ratio]
+        pl_common_ratio, en_common_ratio = self.common_used_words(words)
+        analysed_text = [language, average_word_length, vowel_ratio, avg_words,
+                         non_ascii_ratio, spaces_ratio, pl_common_ratio, en_common_ratio]
         analysed_text.extend(doubles_ratio)
         analysed_text.extend(letter_ratio)
         return analysed_text
@@ -141,6 +147,18 @@ class FeaturesGen:
             letter_count += lower_case_text.count(letter)
             letter_ratio.append(self.__ratio_in_text(text, letter_count))
         return letter_ratio
+
+    def common_used_words(self, words):
+        pl_words_count = 0
+        en_words_count = 0
+        for word in words:
+            if word in self.pl_word_list:
+                pl_words_count += 1
+            if word in self.en_word_list:
+                en_words_count += 1
+        pl_ratio = pl_words_count / len(words)
+        en_ratio = en_words_count / len(words)
+        return pl_ratio, en_ratio
 
 
 def prepare_corpus_dataset():
