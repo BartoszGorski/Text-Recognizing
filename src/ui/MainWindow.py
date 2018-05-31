@@ -1,4 +1,5 @@
 import tkinter
+from ui.DialogWindow import DialogWindow
 
 from Interfaces.ClassificationModule import ClassificationModule, LanguageType
 from utils.FeaturesGen import FeaturesGen
@@ -12,6 +13,7 @@ class UI:
         self.initManagementFrame(classifiersDict)
         self.initClassificationFrame()
         self.initMainLayout()
+        self.minLength = 30;
         self.featuresGenerator = FeaturesGen()
 
     def loadClassifiers(self):
@@ -43,7 +45,7 @@ class UI:
         self.classifierLabel.pack(pady=(30, 0))
         self.classifierListbox.pack(padx=30)
         #self.removeButton.pack(pady=(5, 25))
-        self.classifyTextBoxLabel.pack()
+        self.classifyTextBoxLabel.pack(pady=(15,0))
         self.classifyTextBox.pack(padx=15)
         self.classifyButton.pack(pady=(5, 0))
         self.scoreLabel.pack(pady=(5, 30))
@@ -58,7 +60,10 @@ class UI:
         self.classifierLabel = tkinter.Label(self.classificationFrame,
                                              text="Moduły klasyfikujące")
         self.classifyButton = tkinter.Button(self.classificationFrame, text="Klasyfikuj")
-        self.classifyTextBox = tkinter.Entry(self.classificationFrame, width=50)
+        #self.classifyTextBox = tkinter.Entry(self.classificationFrame, width=50, validate="all",
+        #                                     validatecommand=self.validateLength, highlightthickness=1)
+        self.classifyTextBox = tkinter.Text(self.classificationFrame, width=50, height=5)
+
         self.classifyTextBoxLabel = tkinter.Label(self.classificationFrame,
                                                   text="Tekst do klasyfikacji")
         self.removeButton = tkinter.Button(self.classificationFrame, text="Usuń moduł")
@@ -68,6 +73,7 @@ class UI:
 
         self.removeButton.bind("<Button-1>", self.onClickRemoveButton)
         self.classifyButton.bind("<Button-1>", self.onClickClassifyButton)
+        self.classifyTextBox.bind('<<Modified>>', self.validateLength)
 
     def initManagementFrame(self, classifiersDict=dict()):
         self.managementFrame = tkinter.Frame(self.mainWindow, width=500, height=400, bd=2,
@@ -112,10 +118,24 @@ class UI:
     def onClickClassifyButton(self, event):
         if not self.classifierListbox.curselection():
             scoreLabelNewText = "Wynik klasyfikacji: wybierz moduł klasyfikacyjny"
+            DialogWindow(self.mainWindow, txt="Wybierz moduł klasyfikacyjny z listy!")
+        elif len(self.classifyTextBox.get("1.0", tkinter.END)) < self.minLength:
+            DialogWindow(self.mainWindow, self.minLength)
         else:
             moduleSelected = self.classifierListbox.get(self.classifierListbox.curselection())
-            textToClassify = self.classifyTextBox.get()
+            textToClassify = self.classifyTextBox.get("1.0", tkinter.END)
             analysedText = self.featuresGenerator.analyse_text(textToClassify)[1:]
             predictionResult = self.modulesDictionary[moduleSelected].predict([analysedText])
             scoreLabelNewText = "Wynik klasyfikacji: {}".format(LanguageType(predictionResult).name)
         self.scoreLabel.config(text=scoreLabelNewText)
+
+    def validateLength(self, event=None):
+        currentLength = len(self.classifyTextBox.get("1.0", tkinter.END))
+        self.classifyTextBox.edit_modified(False)
+
+        if currentLength >= self.minLength:
+            self.classifyTextBox.config(fg="green")
+        else:
+            self.classifyTextBox.config(fg="red")
+
+        return True
