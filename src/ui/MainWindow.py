@@ -1,5 +1,5 @@
 import tkinter
-from DialogWindow import DialogWindow
+from ui.DialogWindow import DialogWindow
 
 from Interfaces.ClassificationModule import ClassificationModule, LanguageType
 from utils.FeaturesGen import FeaturesGen
