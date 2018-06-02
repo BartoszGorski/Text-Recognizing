@@ -84,11 +84,13 @@ class FeaturesGen:
         non_ascii_ratio = self.non_ascii_ratio(text)
         doubles_ratio = self.double_letter_and_vowels_ratio(text)
         letter_ratio = self.alphabet_ratio(text)
+        neighbour_letters = self.neighbour_letters_ratio(text)
         spaces_ratio = self.spaces_ratio(text)
         pl_common_ratio, en_common_ratio = self.common_used_words(words)
         analysed_text = [language, average_word_length, vowel_ratio, avg_words,
                          non_ascii_ratio, spaces_ratio, pl_common_ratio, en_common_ratio]
         analysed_text.extend(doubles_ratio)
+        analysed_text.extend(neighbour_letters)
         analysed_text.extend(letter_ratio)
         return analysed_text
 
@@ -155,6 +157,17 @@ class FeaturesGen:
             letter_count += lower_case_text.count(letter)
             letter_ratio.append(self.__ratio_in_text(text, letter_count))
         return letter_ratio
+
+    def neighbour_letters_ratio(self, text):
+        lower_case_text = text.lower()
+        neighbour_letters_ratio = []
+        for first_letter in LETTERS:
+            for second_letter in LETTERS:
+                neighbour_letters = first_letter + second_letter
+                matches = [m.start() for m in re.finditer(neighbour_letters, lower_case_text)]
+                neighbour_count = len(matches)
+                neighbour_letters_ratio.append(self.__ratio_in_text(text, neighbour_count))
+        return neighbour_letters_ratio
 
     def common_used_words(self, words):
         pl_words_count = 0
