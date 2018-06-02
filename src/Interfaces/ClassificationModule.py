@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.externals import joblib
 
 class LanguageType(Enum):
-    unnatural = 0
+    garbage = 0
     polish = 1
     english = 2
     code = 3

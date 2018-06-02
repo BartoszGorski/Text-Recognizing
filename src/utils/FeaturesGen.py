@@ -165,7 +165,7 @@ def prepare_corpus_dataset():
     fg = FeaturesGen()
     pl_corpus = fg.generate_features("../corpus/plCorpus.csv", LanguageType.polish.value)
     en_corpus = fg.generate_features("../corpus/engCorpus.csv", LanguageType.english.value)
-    nl_corpus = fg.generate_features("../corpus/nonLanguageCorpus.csv", LanguageType.unnatural.value)
+    nl_corpus = fg.generate_features("../corpus/garbageCorpus.csv", LanguageType.garbage.value)
     cd_corpus = fg.generate_features("../corpus/codeCorpus.csv", LanguageType.code.value)
     rn_corpus = fg.generate_features("../corpus/rnCorpus.csv", LanguageType.random.value)
     min_lenght = min(len(pl_corpus), len(en_corpus), len(nl_corpus), len(cd_corpus), len(rn_corpus))
