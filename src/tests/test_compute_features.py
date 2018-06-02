@@ -1,4 +1,5 @@
 from src.utils.FeaturesGen import FeaturesGen
+from re import finditer
 
 SIMPLE_SENTENCE = "Abćńa I'm 125 xz. Ańżss, 5% oo-k3 Ωw-oą ok Llo.."
 
@@ -40,3 +41,7 @@ class TestCalculateFeatures:
     def test_spaces_ratio(self):
         spaces_ratio = self.features_gen.spaces_ratio(SIMPLE_SENTENCE)
         assert spaces_ratio == 9 / self.characters_count
+
+    def test_find_all_matches(self):
+        matches = [m.start() for m in finditer('test', 'tet test tesdat testx')]
+        assert len(matches) == 2
