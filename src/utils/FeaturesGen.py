@@ -84,13 +84,13 @@ class FeaturesGen:
         non_ascii_ratio = self.non_ascii_ratio(text)
         doubles_ratio = self.double_letter_and_vowels_ratio(text)
         letter_ratio = self.alphabet_ratio(text)
-        neighbour_letters = self.neighbour_letters_ratio(text)
+        # neighbour_letters = self.neighbour_letters_ratio(text)
         spaces_ratio = self.spaces_ratio(text)
         pl_common_ratio, en_common_ratio = self.common_used_words(words)
         analysed_text = [language, average_word_length, vowel_ratio, avg_words,
                          non_ascii_ratio, spaces_ratio, pl_common_ratio, en_common_ratio]
         analysed_text.extend(doubles_ratio)
-        analysed_text.extend(neighbour_letters)
+        # analysed_text.extend(neighbour_letters)
         analysed_text.extend(letter_ratio)
         return analysed_text
 
@@ -186,20 +186,20 @@ def prepare_corpus_dataset():
     fg = FeaturesGen()
     pl_corpus = fg.generate_features("../corpus/plCorpus.csv", LanguageType.polish.value)
     en_corpus = fg.generate_features("../corpus/engCorpus.csv", LanguageType.english.value)
-    nl_corpus = fg.generate_features("../corpus/garbageCorpus.csv", LanguageType.garbage.value)
+    gr_corpus = fg.generate_features("../corpus/garbageCorpus.csv", LanguageType.garbage.value)
     cd_corpus = fg.generate_features("../corpus/codeCorpus.csv", LanguageType.code.value)
     rn_corpus = fg.generate_features("../corpus/rnCorpus.csv", LanguageType.random.value)
-    min_lenght = min(len(pl_corpus), len(en_corpus), len(nl_corpus), len(cd_corpus), len(rn_corpus))
+    min_lenght = min(len(pl_corpus), len(en_corpus), len(gr_corpus), len(cd_corpus), len(rn_corpus))
     print("Taking {} samples from each corpus".format(min_lenght))
     print("pl_corpus {}".format(len(pl_corpus)))
     print("en_corpus {}".format(len(en_corpus)))
-    print("nl_corpus {}".format(len(nl_corpus)))
+    print("gr_corpus {}".format(len(gr_corpus)))
     print("cd_corpus {}".format(len(cd_corpus)))
     print("rn_corpus {}".format(len(rn_corpus)))
     corpus = []
     corpus.extend(pl_corpus[:min_lenght])
     corpus.extend(en_corpus[:min_lenght])
-    corpus.extend(nl_corpus[:min_lenght])
+    corpus.extend(gr_corpus[:min_lenght])
     corpus.extend(cd_corpus[:min_lenght])
     corpus.extend(rn_corpus[:min_lenght])
     return corpus
