@@ -126,7 +126,7 @@ class UI:
             textToClassify = self.classifyTextBox.get("1.0", tkinter.END)
             analysedText = self.featuresGenerator.analyse_text(textToClassify)[1:]
             predictionResult = self.modulesDictionary[moduleSelected].predict([analysedText])
-            scoreLabelNewText = "Wynik klasyfikacji: {}".format(LanguageType(predictionResult).name)
+            scoreLabelNewText = self.createClassifyResultText(predictionResult)
         self.scoreLabel.config(text=scoreLabelNewText)
 
     def validateLength(self, event=None):
@@ -137,5 +137,13 @@ class UI:
             self.classifyTextBox.config(fg="green")
         else:
             self.classifyTextBox.config(fg="red")
-
         return True
+
+    def createClassifyResultText(self, predictionResult):
+        resultName = LanguageType(predictionResult).name
+        if resultName == "garbage" or resultName == "code" or resultName == "random":
+            languageType = "unnatural"
+        else:
+            languageType = resultName
+        return "Wynik klasyfikacji: {}".format(languageType)
+
