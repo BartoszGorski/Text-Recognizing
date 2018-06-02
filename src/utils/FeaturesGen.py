@@ -25,17 +25,25 @@ analysed text array:
 6 - pl_common_ratio, 
 7 - en_common_ratio,
 doubles_ratio:
-6 - doubles_characters,
-7 - doubles_asci_letters,
-8 - doubles_vowels,
-letter_ratio (lower and upper case):
-9 - A,
-10 - B,
-11 - C,
+7 - doubles_characters,
+8 - doubles_asci_letters,
+9 - doubles_vowels,
+neighbour_letters_ratio:
+10 - aa,
+11 - ab,
+12 - ac,
 ...
-32 - X,
-33 - Y,
-34 - Z,
+xx - zx,
+xx - zy,
+xx - zz,
+letter_ratio (lower and upper case):
+xx - A,
+xx - B,
+xx - C,
+...
+xx - X,
+xx - Y,
+xx - Z,
 '''
 
 
