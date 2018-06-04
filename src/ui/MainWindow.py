@@ -117,7 +117,6 @@ class UI:
 
     def onClickClassifyButton(self, event):
         if not self.classifierListbox.curselection():
-            scoreLabelNewText = "Wynik klasyfikacji: wybierz moduł klasyfikacyjny"
             DialogWindow(self.mainWindow, txt="Wybierz moduł klasyfikacyjny z listy!")
         elif len(self.classifyTextBox.get("1.0", tkinter.END)) < self.minLength:
             DialogWindow(self.mainWindow, self.minLength)
@@ -126,8 +125,8 @@ class UI:
             textToClassify = self.classifyTextBox.get("1.0", tkinter.END)
             analysedText = self.featuresGenerator.analyse_text(textToClassify)[1:]
             predictionResult = self.modulesDictionary[moduleSelected].predict([analysedText])
-            scoreLabelNewText = "Wynik klasyfikacji: {}".format(LanguageType(predictionResult).name)
-        self.scoreLabel.config(text=scoreLabelNewText)
+            scoreLabelNewText = self.createClassifyResultText(predictionResult)
+            self.scoreLabel.config(text=scoreLabelNewText)
 
     def validateLength(self, event=None):
         currentLength = len(self.classifyTextBox.get("1.0", tkinter.END))
@@ -137,5 +136,15 @@ class UI:
             self.classifyTextBox.config(fg="green")
         else:
             self.classifyTextBox.config(fg="red")
-
         return True
+
+    def createClassifyResultText(self, predictionResult):
+        resultName = LanguageType(predictionResult).name
+        if resultName == "garbage" or resultName == "code" or resultName == "random":
+            languageType = "język nienaturalny"
+        elif resultName == "polish":
+            languageType = "język polski"
+        else:
+            languageType = "język angielski"
+        return "Wynik klasyfikacji: {}".format(languageType)
+
