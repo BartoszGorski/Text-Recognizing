@@ -175,33 +175,16 @@ class UI:
 
     def onClickUnnaturalExampleButton(self, event):
         self.classifyTextBox.delete(1.0, tkinter.END)
-        self.classifyTextBox.insert(tkinter.END, '''/*
- * Copyright (C) 2015 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the ""License""); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-
-package com.google.common.hash;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-
-/**
- * {@link HashFunction} adapter for {@link Mac} instances.
- *
- * @author Kurt Alfred Kluever
- */,"".java""" '''                          )
+        self.classifyTextBox.insert(tkinter.END, '''import (
+    "runtime"
+    "syscall"
+)
+func (c *conn) writeBuffers(v *Buffers) (int64, error) {
+    if !c.ok() {
+        return 0, syscall.EINVAL
+    }
+    n, err := c.fd.writeBuffers(v)
+    if err != nil {
+        return n, &OpError{Op: "writev", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+    }
+    return n, nil'''                                )
