@@ -156,7 +156,7 @@ class UI:
             languageType = "język polski"
         else:
             languageType = "język angielski"
-        return "Wynik klasyfikacji: {}".format(languageTyp)
+        return "Wynik klasyfikacji: {}".format(languageType)
 
     def onClickPlExampleButton(self, event):
         self.classifyTextBox.delete(1.0, tkinter.END)
