@@ -24,7 +24,7 @@ class UI:
             'NearestNeighbors': ClassificationModule.load_classifier(
                 '../classifiers_pkl/NearestNeighbors.pkl'),
             'SVM': ClassificationModule.load_classifier('../classifiers_pkl/SVM.pkl')
-        }
+       } 
 
     def initMainLayout(self):
         #self.managementLabel.grid(column=0, row=0)
@@ -45,6 +45,9 @@ class UI:
         self.classifierLabel.pack(pady=(30, 0))
         self.classifierListbox.pack(padx=30)
         #self.removeButton.pack(pady=(5, 25))
+        self.plExampleButton.pack(pady=(20, 0))
+        self.enExampleButton.pack(pady=(3, 0))
+        self.unnaturalExampleButton.pack(pady=(3, 0))
         self.classifyTextBoxLabel.pack(pady=(15,0))
         self.classifyTextBox.pack(padx=15)
         self.classifyButton.pack(pady=(5, 0))
@@ -62,17 +65,24 @@ class UI:
         self.classifyButton = tkinter.Button(self.classificationFrame, text="Klasyfikuj")
         #self.classifyTextBox = tkinter.Entry(self.classificationFrame, width=50, validate="all",
         #                                     validatecommand=self.validateLength, highlightthickness=1)
-        self.classifyTextBox = tkinter.Text(self.classificationFrame, width=50, height=5)
+        self.classifyTextBox = tkinter.Text(self.classificationFrame, width=75, height=8)
 
         self.classifyTextBoxLabel = tkinter.Label(self.classificationFrame,
                                                   text="Tekst do klasyfikacji")
         self.removeButton = tkinter.Button(self.classificationFrame, text="Usuń moduł")
         self.scoreLabel = tkinter.Label(self.classificationFrame,
                                         text="Wynik klasyfikacji: ")
+        self.plExampleButton = tkinter.Button(self.classificationFrame, text="Przykładowa próbka dla języka polskiego")
+        self.enExampleButton = tkinter.Button(self.classificationFrame, text="Przykładowa próbka dla języka angielskiego")
+        self.unnaturalExampleButton = tkinter.Button(self.classificationFrame, text="Przykładowa próbka dla języka nienaturalnego")
+
         self.initClassificationFrameLayout()
 
         self.removeButton.bind("<Button-1>", self.onClickRemoveButton)
         self.classifyButton.bind("<Button-1>", self.onClickClassifyButton)
+        self.plExampleButton.bind("<Button-1>", self.onClickPlExampleButton)
+        self.enExampleButton.bind("<Button-1>", self.onClickEnExampleButton)
+        self.unnaturalExampleButton.bind("<Button-1>", self.onClickUnnaturalExampleButton)
         self.classifyTextBox.bind('<<Modified>>', self.validateLength)
 
     def initManagementFrame(self, classifiersDict=dict()):
@@ -146,5 +156,52 @@ class UI:
             languageType = "język polski"
         else:
             languageType = "język angielski"
-        return "Wynik klasyfikacji: {}".format(languageType)
+        return "Wynik klasyfikacji: {}".format(languageTyp)
 
+    def onClickPlExampleButton(self, event):
+        self.classifyTextBox.delete(1.0, tkinter.END)
+        self.classifyTextBox.insert(tkinter.END, "Nazywam się Adam Niezgódka, mam dwanaście lat i już od pół roku jestem w Akademii pana Kleksa. " 
+                                    "W domu nic mi się nigdy nie udawało. Zawsze spóźniałem się do szkoły, nigdy nie zdążyłem odrobić lekcji "
+                                    "i miałem gliniane ręce. Wszystko upuszczałem na podłogę i tłukłem, a szklanki i spodki na sam mój widok "
+                                    "pękały i rozlatywały się w drobne kawałki, zanim jeszcze zdążyłem ich dotknąć.")
+
+    def onClickEnExampleButton(self, event):
+        self.classifyTextBox.delete(1.0, tkinter.END)
+        self.classifyTextBox.insert(tkinter.END, "Since it seems they are not to be permitted to cut student numbers, they are attempting to increase"
+                                    " income. However, to say all other courses are impossible is not to say this course is possible. The Vice"
+                                    " Chancellors are looking for scholarships to meet these fees, and money for those scholarships may come from"
+                                    " government, industry, benefactors or private individuals. If the Government were likely to meet the full "
+                                    "cost, the proposal would be unnecessary.")
+
+    def onClickUnnaturalExampleButton(self, event):
+        self.classifyTextBox.delete(1.0, tkinter.END)
+        self.classifyTextBox.insert(tkinter.END, '''/*
+ * Copyright (C) 2015 The Guava Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the ""License""); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.google.common.hash;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Mac;
+
+/**
+ * {@link HashFunction} adapter for {@link Mac} instances.
+ *
+ * @author Kurt Alfred Kluever
+ */,"".java""" '''                          )
