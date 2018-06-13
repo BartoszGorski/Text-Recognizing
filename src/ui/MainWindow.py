@@ -19,8 +19,8 @@ class UI:
     def loadClassifiers(self):
         self.modulesDictionary = {
             'MLP': ClassificationModule.load_classifier('../classifiers_pkl/MLP.pkl'),
-            'NaiveBayes': ClassificationModule.load_classifier(
-                '../classifiers_pkl/NaiveBayes.pkl'),
+            # 'NaiveBayes': ClassificationModule.load_classifier(
+            #     '../classifiers_pkl/NaiveBayes.pkl'),
             'NearestNeighbors': ClassificationModule.load_classifier(
                 '../classifiers_pkl/NearestNeighbors.pkl'),
             'SVM': ClassificationModule.load_classifier('../classifiers_pkl/SVM.pkl')
