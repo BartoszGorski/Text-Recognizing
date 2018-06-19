@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.externals import joblib
 
+
 class LanguageType(Enum):
     garbage = 0
     polish = 1

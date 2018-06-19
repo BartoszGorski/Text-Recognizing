@@ -2,7 +2,7 @@ from enum import Enum
 from sklearn import svm
 from sklearn.metrics import classification_report, confusion_matrix
 
-from Interfaces.ClassificationModule import ClassificationModule
+from src.Interfaces.ClassificationModule import ClassificationModule
 
 
 class SVMType(Enum):
@@ -23,7 +23,7 @@ class SupportVectorMachineClassifier(ClassificationModule):
             self.classifier = svm.SVC()
 
         self.classifier.fit(X_train, y_train)
-        self.save_classifier(self.classifier, 'SVM.pkl')
+        self.save_classifier(self.classifier, 'classifiers_pkl/SVM.pkl')
         self.checkFitting(X_train, X_test, y_train, y_test)
 
         prediction = self.predict(X_test)

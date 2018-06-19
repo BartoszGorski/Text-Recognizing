@@ -1,10 +1,10 @@
-from utils.FeaturesGen import prepare_corpus_dataset
+from src.utils.FeaturesGen import prepare_corpus_dataset
 
-from Classifiers.MLPClassifier import MultiLayerPerceptronClassifier
-from Classifiers.NaiveBayesClassifier import NaiveBayesClassifier, NBType
-from Classifiers.NearestNeighborsClassifier import NearestNeighborsClassifier
-from Classifiers.SupportVectorMachineClassifier import SupportVectorMachineClassifier
-from Classifiers.SupportVectorMachineClassifier import SVMType
+from src.Classifiers.MLPClassifier import MultiLayerPerceptronClassifier
+from src.Classifiers.NaiveBayesClassifier import NaiveBayesClassifier, NBType
+from src.Classifiers.NearestNeighborsClassifier import NearestNeighborsClassifier
+from src.Classifiers.SupportVectorMachineClassifier import SupportVectorMachineClassifier
+from src.Classifiers.SupportVectorMachineClassifier import SVMType
 
 
 dataset = prepare_corpus_dataset()

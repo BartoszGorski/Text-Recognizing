@@ -1,7 +1,8 @@
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 
-from Interfaces.ClassificationModule import ClassificationModule
+from src.Interfaces.ClassificationModule import ClassificationModule
+
 
 
 
@@ -11,7 +12,7 @@ class MultiLayerPerceptronClassifier(ClassificationModule):
 
         self.classifier = MLPClassifier(hidden_layer_sizes=(60, 60, 60), max_iter=1000)
         self.classifier.fit(X_train, y_train)
-        self.save_classifier(self.classifier, 'MLP.pkl')
+        self.save_classifier(self.classifier, 'classifiers_pkl/MLP.pkl')
         self.checkFitting(X_train, X_test, y_train, y_test)
 
         prediction = self.predict(X_test)
