@@ -5,7 +5,7 @@
 - python3
 
 ##### python3 packages:
-- wikipedia
+- sklearn
 - nltk
 - pytest
 
@@ -17,38 +17,49 @@ bgorski@bgorski:~/workspace/Text-Recognizing$ ./install_requirements.sh
 ```
 
 
-## Generate language corpus from wikipedia articles
-Using `python3` run `generate_corpus.py` from `src` directory:
-```commandline
-bgorski@bgorski:~/workspace/Text-Recognizing/src$ python3 generate_corpus.py
-```
+## Classify text
 
-`generate_corpus.py` has some optional arguments:
+Classify text and save result to json file.
 
-Options | Description 
---- | ---
--h, --help | Show help message and exit
--l LANGUAGE, --language LANGUAGE | Article language (type abbreviation, for example 'en', 'pl'). Default: 'en'
--i ITERATIONS, --iterations | Script iterations - articles count (default=100)
--c CORPUS_FILE, --corpus_file CORPUS_FILE | Path to txt file where save article texts. Default="corpus.txt"
--s SHORTEST_ARTICLE, --shortest_article SHORTEST_ARTICLE | Shortest article length (characters), default=500
+usage: python3 classify_text.py [-h] [-c CLASSIFIER] text_file output_file
 
+positional arguments: 
 
-## Generate language-analysed database 
-Using `python3` run `generate_base.py` from `src` directory:
-```commandline
-bgorski@bgorski:~/workspace/Text-Recognizing/src$ python3 generate_base.py
-```
+Argument | Description 
+--- | --- 
+text_file | Path to text file to analyze  
+output_file | Json output file with classification result  
 
-`generate_base.py` has some optional arguments:
+optional arguments:  
 
 Options | Description 
 --- | ---
 -h, --help | Show help message and exit
--l LANGUAGE, --language LANGUAGE | Article language (type abbreviation, for example 'en', 'pl'). Default: 'en'
--b BASE_FILE, --base_file BASE_FILE | Path to csv file where save data. Default="base.csv"
--c CORPUS_FILE, --corpus_file CORPUS_FILE | Path to txt file where save article texts. Default="corpus.txt"
+-c CLASSIFIER, --classifier CLASSIFIER | Choose classifier: -"MLP" = Multi Layer Perceptron Classifier, -"NNC" = Nearest Neighbors Classifier, -"SVM" = Support Vector Machine Classifier. Default one is MLP
 
+             
+Example of usage
+```commandline
+bgorski@bgorski:~/workspace/Text-Recognizing$ python3 classify_text.py /home/bgorski/my_text.txt result/result_file.json
+```
+
+```commandline
+bgorski@bgorski:~/workspace/Text-Recognizing$ python3 classify_text.py my_text.txt result_file.json -c SVM
+```
+
+## GUI text classifier
+Using `python3` run `gui_text_analiser.py` from `Text-Recognizing` directory:
+```commandline
+bgorski@bgorski:~/workspace/Text-Recognizing/src$ python3 gui_text_analiser.py
+```
+
+## Generate pkl files
+Using `python3` run `train_classifiers.py` from `Text-Recognizing` directory:
+```commandline
+bgorski@bgorski:~/workspace/Text-Recognizing/src$ python3 train_classifiers.py
+```
+
+Corpses are needed to train classifiers. They have to be in `Text-Recognizing/corpus/*` 
 
 ## Run tests
 From `Text-Recognizing` directory run `run_test.sh`:
