@@ -1,6 +1,5 @@
 import csv
 import os.path
-import sys
 
 BASE_FORMAT = ['language', 'average_world_len', 'vowel_ratio',
                'words_in_sentence', 'non_ascii_ratio', 'double_letter_ratio',

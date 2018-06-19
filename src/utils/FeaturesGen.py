@@ -4,8 +4,8 @@ import csv
 import nltk
 nltk.download('punkt')
 
-from Interfaces.ClassificationModule import LanguageType
-from utils.CommonWords import get_most_common_words
+from src.Interfaces.ClassificationModule import LanguageType
+from src.utils.CommonWords import get_most_common_words
 
 
 VOWELS = 'aeiouyAEIOUY'

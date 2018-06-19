@@ -1,7 +1,7 @@
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 
-from Interfaces.ClassificationModule import ClassificationModule
+from src.Interfaces.ClassificationModule import ClassificationModule
 
 
 

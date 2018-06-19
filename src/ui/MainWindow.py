@@ -1,8 +1,8 @@
 import tkinter
-from ui.DialogWindow import DialogWindow
+from src.ui.DialogWindow import DialogWindow
 
-from Interfaces.ClassificationModule import ClassificationModule, LanguageType
-from utils.FeaturesGen import FeaturesGen
+from src.Interfaces.ClassificationModule import ClassificationModule, LanguageType
+from src.utils.FeaturesGen import FeaturesGen
 
 
 class UI:
