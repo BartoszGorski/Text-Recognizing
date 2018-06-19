@@ -22,7 +22,7 @@ class NaiveBayesClassifier(ClassificationModule):
         else:
             self.classifier = naive_bayes.MultinomialNB()
         self.classifier.fit(X_train, y_train)
-        self.save_classifier(self.classifier, 'NaiveBayes.pkl')
+        self.save_classifier(self.classifier, 'classifiers_pkl/NaiveBayes.pkl')
         self.checkFitting(X_train, X_test, y_train, y_test)
 
         prediction = self.predict(X_test)

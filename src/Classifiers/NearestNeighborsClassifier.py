@@ -10,7 +10,7 @@ class NearestNeighborsClassifier(ClassificationModule):
 
         self.classifier = neighbors.KNeighborsClassifier(neighborsNumber)
         self.classifier.fit(X_train, y_train)
-        self.save_classifier(self.classifier, 'NearestNeighbors.pkl')
+        self.save_classifier(self.classifier, 'classifiers_pkl/NearestNeighbors.pkl')
         self.checkFitting(X_train, X_test, y_train, y_test)
 
         prediction = self.predict(X_test)
