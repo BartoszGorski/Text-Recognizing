@@ -1,4 +1,4 @@
-from ui.MainWindow import UI
+from src.ui.MainWindow import UI
 
 
 # classifiersDictionary = {'MLP': 1, 'NaiveBayes': 2, 'NearestNeighbors': 3, 'SVM': 4}
